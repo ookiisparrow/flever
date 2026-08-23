@@ -528,8 +528,7 @@ document.querySelectorAll('.note-card').forEach(n=>{
     document.getElementById('cTopic').textContent=n.dataset.name;
     document.getElementById('cTopicDesc').textContent='主题 '+n.dataset.phil+' · '+n.dataset.idea;
   });
-});});
-layoutDeck();
+});
 bindSingleSelect('homeTiers','.tier',el=>{
   state.tier=el.dataset.name;
   document.getElementById('cTier').textContent=el.dataset.name.replace(/ ¥.*/,'');
