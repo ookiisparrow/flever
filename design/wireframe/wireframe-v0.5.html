@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花艺定制 · 交互线框原型 v0.5（首页预定→预定页=选题(上)+档位(下)+确认付款；排期在首页底部）</title>
+<style>
+  :root{
+    --bg:#EDEDEB; --box:#E0E0DD; --line:#C9C9C4; --ink:#3A3A37;
+    --note:#FFF3B8; --accent:#5B3E96;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#DDD;font-family:"PingFang SC",sans-serif;color:var(--ink);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding-bottom:90px}
+
+  .phone{width:100%;max-width:400px;background:var(--bg);min-height:100vh;position:relative;display:none}
+  .phone.active{display:block}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px dashed var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  .back{width:32px;height:32px;border-radius:50%;background:var(--box);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+  .title{font-size:15px;font-weight:600}
+  .content{padding:18px}
+
+  .bx{background:var(--box);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7A7A75;font-size:12px;margin-bottom:12px;text-align:center;line-height:1.6;padding:10px}
+  .bx.img{aspect-ratio:1/1}
+  .bx.tall{height:120px}
+  .row{display:flex;gap:10px}
+  .row .bx{flex:1}
+  .btn{background:var(--ink);color:#fff;border-radius:10px;padding:14px;text-align:center;font-size:14px;cursor:pointer;margin-top:6px}
+  .btn.sec{background:var(--box);color:var(--ink)}
+  .chip{display:inline-block;background:var(--box);border-radius:6px;padding:8px 14px;font-size:13px;margin:0 8px 8px 0;cursor:pointer;border:2px solid transparent}
+  .chip.sel{border-color:var(--accent);color:var(--accent)}
+  .note{background:var(--note);border-radius:8px;padding:10px 12px;font-size:11px;color:#7A6A20;margin:10px 0;line-height:1.7}
+  .sec-label{font-size:12px;color:#888;margin:14px 0 8px;letter-spacing:.05em}
+
+  /* 主花推荐位 */
+  .flower-grid{display:flex;gap:10px;margin-bottom:12px}
+  .fslot{flex:1;background:var(--box);border-radius:10px;padding:10px 6px;text-align:center;font-size:11px;color:#7A7A75;border:2px solid transparent;cursor:pointer;position:relative}
+  .fslot .ph{width:100%;aspect-ratio:1/1;background:#D4D4D0;border-radius:8px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:10px}
+  .fslot .tag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#888;color:#fff;font-size:9px;padding:2px 7px;border-radius:6px;z-index:2}
+  .fslot.sel{border-color:var(--accent)}
+  .fslot.main .tag{background:var(--accent)}
+
+  /* 选题大卡横滑 */
+  .topics{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 16px;scrollbar-width:none}
+  .topics::-webkit-scrollbar{display:none}
+  .topic-card{
+    flex:none;width:82%;scroll-snap-align:center;
+    background:var(--box);border-radius:14px;padding:14px;
+    border:3px solid transparent;cursor:pointer;
+  }
+  .topic-card.sel{border-color:var(--accent)}
+  .topic-card .t-img{aspect-ratio:4/3;background:#D4D4D0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#8A8A85;margin-bottom:12px}
+  .topic-card h3{font-size:16px;margin-bottom:8px;text-align:left}
+  .topic-card p{font-size:11.5px;line-height:1.9;color:#7A7A75;text-align:left;margin-bottom:8px}
+  .topic-card .phil{font-size:10.5px;color:#98948C;text-align:left;border-top:1px dashed var(--line);padding-top:8px}
+  .dots{text-align:center;font-size:14px;color:#BBB;letter-spacing:6px}
+  .dots b{color:var(--accent)}
+
+  /* 甘特排期 */
+  .gantt{background:var(--box);border-radius:10px;padding:14px;margin-bottom:10px}
+  .g-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .g-label{font-size:10px;color:#7A7A75;width:64px;flex:none;text-align:right}
+  .g-track{flex:1;height:22px;background:#D6D6D2;border-radius:5px;position:relative}
+  .g-bar{position:absolute;top:3px;bottom:3px;background:#ABABA6;border-radius:4px;font-size:9px;color:#fff;display:flex;align-items:center;padding:0 6px;white-space:nowrap}
+  .g-bar.mine{background:var(--accent)}
+  .g-days{display:flex;gap:8px;margin-left:72px;font-size:9px;color:#999;margin-bottom:4px}
+  .g-days span{flex:1;text-align:center}
+
+  .proto-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:99;
+    background:#26262B;display:flex;overflow-x:auto;
+    padding:10px 8px calc(10px + env(safe-area-inset-bottom));gap:6px;
+  }
+  .proto-nav button{
+    flex:none;background:#3A3A41;border:none;color:#ccc;
+    font-size:11px;padding:8px 12px;border-radius:8px;cursor:pointer;
+    white-space:nowrap;font-family:inherit;
+  }
+  .proto-nav button.on{background:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ========= 1 首页（含底部排期） ========= -->
+<div class="phone active" id="p-home">
+  <div class="topbar"><div class="title">① 首页</div></div>
+  <div class="content">
+    <div class="bx" style="aspect-ratio:auto;height:180px">主视觉作品图（1:1 直角）+ 标题 + 开始定制</div>
+    <div class="bx tall">往期作品横滑（1:1 直角）</div>
+    <div class="bx tall">本期推荐主花预告 / 定制流程简介（两步：选选题 → 选档位）</div>
+
+    <div class="sec-label">档位入口</div>
+    <div class="row">
+      <div class="bx" style="height:76px">经典 ¥1280</div>
+      <div class="bx" style="height:76px">臻选 ¥3280</div>
+    </div>
+
+    <div class="btn" onclick="go('f1')">开始定制 →</div>
+
+    <!-- 排期：确认按钮下方 -->
+    <div class="sec-label" style="margin-top:20px">近期制作排期</div>
+    <div class="gantt">
+      <div class="g-days"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div>
+      <div class="g-row"><div class="g-label">进行中</div><div class="g-track"><div class="g-bar" style="left:0;width:42%">本周订单</div></div></div>
+      <div class="g-row"><div class="g-label">新订单</div><div class="g-track"><div class="g-bar mine" style="left:50%;width:32%">你将从周四起制作</div></div></div>
+      <div class="g-row"><div class="g-label">交付</div><div class="g-track"><div class="g-bar mine" style="left:84%;width:15%">交付</div></div></div>
+    </div>
+    <div class="note"><b>排期说明文案（占位）：</b>每一件作品都按下单顺序手工制作、不赶工。这张排期表实时更新——你可以看到自己的花大约哪天开始做、哪天到你手上。「慢」，是我们对品质的承诺。</div>
+    <div class="btn sec" onclick="go('orders')">我的订单</div>
+  </div>
+</div>
+
+<!-- ========= 2 预定页（选题+档位） ========= -->
+<div class="phone" id="p-order">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">② 预定你的花</div></div>
+  <div class="content">
+
+    <div class="sec-label">第一步 · 从花艺师的选题中选一个（左右滑动）</div>
+    <div class="topics">
+      <div class="topic-card sel">
+        <div class="t-img">选题意境图</div>
+        <h3>「山茶与雾」</h3>
+        <p>以山茶的沉稳为骨，雾灰色的桔梗作烟。适合安静、内敛的表达。</p>
+        <div class="phil">主题：静 · 理念：克制的美，不需要喧哗</div>
+      </div>
+      <div class="topic-card">
+        <div class="t-img">选题意境图</div>
+        <h3>「夏日尽头」</h3>
+        <p>向日葵与狗尾草的野趣混搭，浓烈又松弛，像夏天最后一场傍晚。</p>
+        <div class="phil">主题：烈 · 理念：把季节留住给一个人</div>
+      </div>
+      <div class="topic-card">
+        <div class="t-img">选题意境图</div>
+        <h3>「月白」</h3>
+        <p>白绿为主，枝叶留出大量呼吸感。叶是主角，花只是月光落下的位置。</p>
+        <div class="phil">主题：素 · 理念：留白即言语</div>
+      </div>
+    </div>
+    <div class="dots"><b>●</b>○○　左右滑动查看</div>
+
+    <div class="divider"></div>
+
+    <div class="sec-label">第二步 · 选择档位（体量相近，花材等级不同）</div>
+    <div class="bx" style="outline:2px solid var(--accent);padding:16px;text-align:left">
+      <b style="font-size:15px">经典 · ¥1280</b><br><br>
+      ✓ 当季优选花材（按选题配置）<br>
+      ✓ 按选题完整还原结构与配色<br>
+      ✓ 手工扎制 · 高级雾面包装<br>
+      ✓ 附养护卡与专属作品页
+    </div>
+    <div class="bx" style="padding:16px;text-align:left">
+      <b style="font-size:15px">臻选 · ¥3280</b><br><br>
+      ✓ 稀缺级进口花材（同选题更高等级）<br>
+      ✓ 花艺师按选题深度演绎 · 一束一签<br>
+      ✓ 进阶工艺（染色/保鲜等视选题而定）<br>
+      ✓ 珍藏礼盒 + 摄影成片 + 专属作品页
+    </div>
+
+    <div class="btn" onclick="go('pay')" style="margin-top:14px">确认付款</div>
+    <div class="note">点击后锁定名额并唤起微信支付；30 分钟内未付款自动释放（已确认规则）</div>
+  </div>
+</div>
+
+<!-- ========= 5 支付结果 ========= -->
+<div class="phone" id="p-pay">
+  <div class="topbar"><div class="title">⑤ 支付成功</div></div>
+  <div class="content">
+    <div class="bx" style="height:100px">✓ 支付成功</div>
+    <div class="bx" style="height:44px">订单号 FL20260823-0047</div>
+    <div class="bx" style="height:60px">排期：预计周四进入制作 · 周日前交付（同步推送服务号）</div>
+    <div class="btn sec" onclick="go('orders')">查看我的订单</div>
+  </div>
+</div>
+
+<!-- ========= 6 我的订单 ========= -->
+<div class="phone" id="p-orders">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">⑥ 我的订单</div></div>
+  <div class="content">
+    <div class="bx" style="height:46px">手机号 + 验证码查询</div>
+    <div class="bx tall">FL…0047 · 经典 ¥1280 · 选题「山茶与雾」<br>状态：制作中 [详情]</div>
+    <div class="bx tall">FL…0031 · 已完成 [看作品页]</div>
+  </div>
+</div>
+
+<!-- ========= 7 作品诞生页 ========= -->
+<div class="phone" id="p-work">
+  <div class="topbar"><div class="back" onclick="go('orders')">‹</div><div class="title">⑦ 作品诞生页</div></div>
+  <div class="content">
+    <div class="bx img">成品大图 1:1 直角</div>
+    <div class="bx img">细节图横滑</div>
+    <div class="bx" style="height:44px">No.0047 · 选题「山茶与雾」· 你的主花：花名A</div>
+    <div class="btn sec">▶ 到抖音看摄影大片</div>
+  </div>
+</div>
+
+<div class="proto-nav">
+  <button data-p="home" class="on">①首页</button>
+  <button data-p="order">②预定页</button>
+  <button data-p="pay">③支付结果</button>
+  <button data-p="orders">④我的订单</button>
+  <button data-p="work">⑤作品页</button>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.phone').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.proto-nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.proto-nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+document.querySelectorAll('.chip,.topic-card,.fslot').forEach(c=>c.onclick=()=>{
+  if(c.classList.contains('topic-card')){c.parentNode.querySelectorAll('.topic-card').forEach(t=>t.classList.remove('sel'));c.classList.add('sel');}
+  else if(c.classList.contains('fslot')) c.classList.toggle('sel');
+  else c.classList.toggle('sel');
+});
+</script>
+</body>
+</html>
