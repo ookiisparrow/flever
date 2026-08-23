@@ -41,6 +41,7 @@
     backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);
     border-bottom:1px solid rgba(0,0,0,.05);
   }
+  .nav-back{font-size:14px;font-weight:var(--w-med);color:var(--ink);cursor:pointer;padding-right:10px}
   .nav-brand{font-size:15px;font-weight:var(--w-semi);display:flex;align-items:center;gap:7px}
   .nav-brand::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
   .nav-me{
@@ -57,7 +58,16 @@
   .eyebrow{font-size:12px;font-weight:var(--w-semi);color:var(--accent);margin-bottom:12px}
   h1{font-size:36px;line-height:1.2;font-weight:var(--w-hero);letter-spacing:.01em;margin-bottom:14px}
   h1 em{font-style:normal;color:var(--accent)}
-  .hero .sub{font-size:15px;line-height:1.8;color:var(--gray);max-width:19em;margin:0 auto}
+  .hero .sub{font-size:15px;line-height:1.8;color:var(--gray);max-width:19em;margin:0 auto 30px}
+  /* 主视觉作品图：1:1 直角（硬规则） */
+  .hero-figure{padding:0 22px 50px}
+  .work-hero{
+    width:100%;aspect-ratio:1/1;border-radius:0;
+    background:radial-gradient(70% 60% at 32% 28%,#FBFBFD 0%,transparent 60%),radial-gradient(60% 60% at 74% 74%,#E8E8EC 0%,transparent 58%),linear-gradient(155deg,#F5F5F7,#E3E3E6);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;letter-spacing:.3em;text-indent:.3em;color:#A8A8AD;
+    box-shadow:var(--shadow-card);
+  }
 
   /* ===== 通用 ===== */
   section{padding:0 20px;margin-bottom:52px}
@@ -136,7 +146,7 @@
 
   /* ===== 甘特排期 ===== */
   .gantt-card{background:var(--card);border-radius:var(--r-card);box-shadow:var(--shadow-card);padding:22px 20px}
-  .g-days{display:flex;margin-left:70px;font-size:10px;color:var(--faint);margin-bottom:8px}
+  .g-days{display:flex;margin-left:68px;font-size:10px;color:var(--faint);margin-bottom:8px}
   .g-days span{flex:1;text-align:center}
   .g-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .g-label{font-size:11px;color:var(--gray);width:58px;flex:none;text-align:right}
@@ -219,6 +229,10 @@
     <div class="eyebrow">FLORA ATELIER · 花艺定制</div>
     <h1>定制一束，<br>只属于你的花。</h1>
     <p class="sub">花艺师已完成构思，<br>你只负责选择心意。</p>
+  </div>
+
+  <div class="hero-figure rise d2">
+    <div class="work-hero">作 品 图 1 : 1</div>
   </div>
 
   <section class="reveal">
@@ -319,7 +333,7 @@
 <div class="phone" id="p-confirm">
 
   <nav class="rise">
-    <div class="nav-brand" onclick="go('home')" style="cursor:pointer">‹ 返回</div>
+    <div class="nav-back" onclick="go('home')">‹ 返回</div>
     <div style="margin-left:auto;font-size:14px;font-weight:var(--w-semi)">确认预定</div>
     <div style="width:34px"></div>
   </nav>
@@ -378,7 +392,7 @@
 <div class="phone" id="p-me">
 
   <nav class="rise">
-    <div class="nav-brand" onclick="go('home')" style="cursor:pointer">‹ 返回</div>
+    <div class="nav-back" onclick="go('home')">‹ 返回</div>
     <div style="margin-left:auto;font-size:14px;font-weight:var(--w-semi)">我 · 订单与作品</div>
     <div style="width:34px"></div>
   </nav>
@@ -414,6 +428,14 @@ function go(id){
   t.classList.add('active');
   window.scrollTo(0,0);
   observeReveals(t);
+  /* 重触发关键动画（否则 display:none 期间动画已播完） */
+  if(id==='pay'){
+    const c=t.querySelector('.check');
+    c.style.animation='none';void c.offsetWidth;c.style.animation='';
+  }
+  if(id==='confirm'){
+    t.querySelectorAll('.g-bar').forEach(b=>{b.style.animation='none';void b.offsetWidth;b.style.animation='';});
+  }
 }
 /* ===== 滚动浮现 ===== */
 const io=new IntersectionObserver(es=>{
