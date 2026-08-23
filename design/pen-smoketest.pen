@@ -1,0 +1,136 @@
+{
+  "version": "2.17",
+  "children": [
+    {
+      "type": "frame",
+      "id": "ocLIj",
+      "x": 0,
+      "y": 0,
+      "name": "花艺定制 Mobile Card",
+      "clip": true,
+      "width": 360,
+      "height": 520,
+      "fill": "$floral-bg",
+      "cornerRadius": 28,
+      "layout": "vertical",
+      "gap": 24,
+      "padding": 28,
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "FWEZx",
+          "name": "Card Content",
+          "width": "fill_container",
+          "fill": "$floral-card",
+          "cornerRadius": 24,
+          "stroke": "$floral-border",
+          "strokeWidth": 1,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#6B4D3429",
+            "offset": {
+              "x": 0,
+              "y": 18
+            },
+            "blur": 36,
+            "spread": -18
+          },
+          "layout": "vertical",
+          "gap": 16,
+          "padding": 28,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ZM9pH",
+              "name": "Title",
+              "fill": "$floral-text",
+              "content": "花艺定制",
+              "lineHeight": 1.15,
+              "fontFamily": "Inter",
+              "fontSize": 34,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "MpLbT",
+              "name": "Subtitle",
+              "fill": "$floral-muted",
+              "content": "测试画布",
+              "lineHeight": 1.35,
+              "fontFamily": "Inter",
+              "fontSize": 15
+            },
+            {
+              "type": "frame",
+              "id": "M0f69w",
+              "name": "Rounded Button",
+              "fill": "$floral-button",
+              "cornerRadius": 999,
+              "padding": [
+                13,
+                26
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xRc8c",
+                  "name": "Button Label",
+                  "fill": "$floral-button-text",
+                  "content": "开始定制",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "500"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "floral-bg": {
+      "type": "color",
+      "value": "#F8F1E6"
+    },
+    "floral-card": {
+      "type": "color",
+      "value": "#FFF9F0"
+    },
+    "floral-text": {
+      "type": "color",
+      "value": "#33271F"
+    },
+    "floral-muted": {
+      "type": "color",
+      "value": "#8B7562"
+    },
+    "floral-button": {
+      "type": "color",
+      "value": "#7E4F3F"
+    },
+    "floral-button-text": {
+      "type": "color",
+      "value": "#FFF7EE"
+    },
+    "floral-border": {
+      "type": "color",
+      "value": "#EBDCCA"
+    },
+    "font-serif": {
+      "type": "string",
+      "value": "Noto Serif SC"
+    },
+    "font-sans": {
+      "type": "string",
+      "value": "Noto Sans SC"
+    }
+  },
+  "fileToken": "50ff01be-1780-4e82-a332-f762b89cad57"
+}
