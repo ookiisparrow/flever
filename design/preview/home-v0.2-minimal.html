@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>花艺定制 · 首页预览 v0.2 极简白</title>
+<style>
+  :root{
+    --bg:#FCFBF8;
+    --ink:#191917;
+    --muted:#9B978E;
+    --accent:#445B4E;
+    --hairline:rgba(25,25,23,.10);
+    --serif:"Songti SC","Noto Serif SC",serif;
+    --sans:"PingFang SC","Helvetica Neue",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#EFEFEA;font-family:var(--sans);color:var(--ink);display:flex;justify-content:center;min-height:100vh}
+  .phone{width:100%;max-width:420px;background:var(--bg);min-height:100vh}
+  header{display:flex;justify-content:center;padding:22px;border-bottom:1px solid var(--hairline)}
+  .brand{font-size:12px;letter-spacing:.5em;text-indent:.5em;font-weight:500}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .rise{animation:rise .7s cubic-bezier(.22,.61,.36,1) both}
+  .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none}}
+  .hero{padding:64px 28px 48px;text-align:center}
+  .kicker{font-size:10px;letter-spacing:.45em;color:var(--muted);margin-bottom:26px}
+  h1{font-family:var(--serif);font-weight:600;font-size:32px;line-height:1.4;letter-spacing:.04em;margin-bottom:22px}
+  .hero p{font-size:13px;line-height:2.1;color:var(--muted);max-width:26em;margin:0 auto 34px}
+  .cta{display:inline-block;border:1px solid var(--ink);color:var(--ink);font-size:13px;letter-spacing:.35em;text-indent:.35em;padding:14px 40px;border-radius:0;text-decoration:none;transition:background .25s,color .25s}
+  .cta:active{background:var(--ink);color:var(--bg)}
+  .queue-note{margin-top:20px;font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .queue-note b{color:var(--accent)}
+  figure.work{margin:0;height:380px;background:linear-gradient(175deg,#F2F1EC 0%,#E4E6DF 60%,#D8DCD2 100%);position:relative}
+  figure.work::after{content:"作品摄影 · 占位";position:absolute;left:24px;bottom:18px;font-size:10px;letter-spacing:.3em;color:rgba(25,25,23,.35)}
+  figcaption{padding:14px 28px;font-size:11px;color:var(--muted);letter-spacing:.15em;display:flex;justify-content:space-between;border-bottom:1px solid var(--hairline)}
+  section{padding:56px 28px 0}
+  .sec-head{margin-bottom:30px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec-head h2{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.1em}
+  .sec-head i{font-style:normal;font-size:9px;letter-spacing:.35em;color:var(--muted)}
+  ol.steps{list-style:none;counter-reset:s}
+  ol.steps li{padding:18px 0;border-bottom:1px solid var(--hairline);display:flex;align-items:baseline;gap:16px}
+  ol.steps li:first-child{border-top:1px solid var(--hairline)}
+  .no{font-size:11px;color:var(--accent);letter-spacing:.1em;min-width:28px}
+  .step-t{font-size:14px;letter-spacing:.06em}
+  .step-d{margin-left:auto;font-size:11px;color:var(--muted)}
+  ul.plans{list-style:none}
+  ul.plans li{padding:22px 0;border-bottom:1px solid var(--hairline);display:flex;align-items:baseline;gap:14px}
+  ul.plans li:first-child{border-top:1px solid var(--hairline)}
+  .plan-name{font-family:var(--serif);font-size:16px;font-weight:600}
+  .plan-desc{flex:1;font-size:11px;color:var(--muted)}
+  .plan-price{font-size:15px}
+  .plan-price::before{content:"¥";font-size:11px;color:var(--muted)}
+  footer{margin-top:64px;padding:26px 28px calc(30px + env(safe-area-inset-bottom));display:flex;justify-content:space-between}
+  footer p{font-size:9px;letter-spacing:.3em;color:var(--muted)}
+  footer span{font-size:9px;letter-spacing:.2em;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="rise"><div class="brand">FLORA ATELIER</div></header>
+
+  <section class="hero">
+    <div class="kicker rise d1">CUSTOM FLORAL · 定制花艺</div>
+    <h1 class="rise d1">克制的设计，<br>恰好的盛放。</h1>
+    <p class="rise d2">从一粒种子到一束花的距离，是我们对每一次交付的认真。选择你偏爱的花材与色调，其余交给时间。</p>
+    <a class="cta rise d3" href="#">开始定制</a>
+    <div class="queue-note rise d3">今日剩余名额 <b>3</b> / 最早可排 8 月 26 日</div>
+  </section>
+
+  <figure class="work rise d3"></figure>
+  <figcaption class="rise d3"><span>「白露」· 客定作品</span><span>No.047</span></figcaption>
+
+  <section>
+    <div class="sec-head"><h2>流程</h2><i>PROCESS</i></div>
+    <ol class="steps">
+      <li><span class="no">01</span><span class="step-t">选择偏好</span><span class="step-d">花种 · 色系 · 参考图</span></li>
+      <li><span class="no">02</span><span class="step-t">挑选套餐</span><span class="step-d">当场付清</span></li>
+      <li><span class="no">03</span><span class="step-t">排队制作</span><span class="step-d">进度提醒</span></li>
+      <li><span class="no">04</span><span class="step-t">作品交付</span><span class="step-d">专属作品页</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>套餐</h2><i>COLLECTION</i></div>
+    <ul class="plans">
+      <li><span class="plan-name">初见</span><span class="plan-desc">单主花材 · 简约包装</span><span class="plan-price">299</span></li>
+      <li><span class="plan-name">心事</span><span class="plan-desc">双花材混搭 · 精致包装</span><span class="plan-price">599</span></li>
+      <li><span class="plan-name">臻藏</span><span class="plan-desc">设计师全权创作</span><span class="plan-price">999</span></li>
+    </ul>
+  </section>
+
+  <footer><p>FLORA ATELIER © 2026</p><span>抖音 · @flora作品集</span></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>花艺定制 · 首页预览 v0.3 深色奢华</title>
+<style>
+  :root{
+    --bg:#171412;
+    --panel:#201C18;
+    --ink:#EFE7D8;
+    --muted:#9C907F;
+    --gold:#C6A666;
+    --hairline:rgba(198,166,102,.22);
+    --serif:"Songti SC","Noto Serif SC",serif;
+    --sans:"PingFang SC","Helvetica Neue",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0D0B0A;font-family:var(--sans);color:var(--ink);display:flex;justify-content:center;min-height:100vh}
+  .phone{width:100%;max-width:420px;background:var(--bg);min-height:100vh}
+  header{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;border-bottom:1px solid var(--hairline)}
+  .brand{font-size:12px;letter-spacing:.4em;color:var(--gold);font-weight:500}
+  .lang{font-size:9px;letter-spacing:.3em;color:var(--muted)}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .rise{animation:rise .8s cubic-bezier(.22,.61,.36,1) both}
+  .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none}}
+  .hero{padding:56px 28px 44px;text-align:center;background:
+    radial-gradient(90% 60% at 50% 0%,rgba(198,166,102,.10) 0%,transparent 70%)}
+  .kicker{font-size:10px;letter-spacing:.5em;color:var(--gold);margin-bottom:24px}
+  h1{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.42;letter-spacing:.06em;margin-bottom:20px}
+  h1 em{font-style:normal;color:var(--gold)}
+  .hero p{font-size:13px;line-height:2.1;color:var(--muted);max-width:26em;margin:0 auto 36px}
+  .cta{
+    display:inline-block;color:var(--gold);
+    border:1px solid var(--gold);
+    font-size:13px;letter-spacing:.4em;text-indent:.4em;
+    padding:15px 44px;text-decoration:none;
+  }
+  .queue-note{margin-top:22px;font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .queue-note b{color:var(--gold)}
+  figure.work{margin:0;height:400px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 25% 20%,rgba(198,166,102,.16) 0%,transparent 55%),
+      radial-gradient(100% 90% at 80% 85%,rgba(120,84,50,.35) 0%,transparent 60%),
+      linear-gradient(160deg,#26211B,#141110)}
+  figure.work::after{content:"作品摄影 · 占位";position:absolute;left:24px;bottom:18px;font-size:10px;letter-spacing:.35em;color:rgba(239,231,216,.35)}
+  figcaption{padding:14px 28px;font-family:var(--serif);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;border-bottom:1px solid var(--hairline)}
+  section{padding:56px 28px 0}
+  .sec-head{text-align:center;margin-bottom:32px}
+  .sec-head i{display:block;font-style:normal;font-size:9px;letter-spacing:.45em;color:var(--gold);margin-bottom:12px}
+  .sec-head h2{font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.15em}
+  ol.steps{list-style:none}
+  ol.steps li{padding:19px 4px;border-bottom:1px solid rgba(198,166,102,.14);display:flex;align-items:baseline;gap:16px}
+  ol.steps li:first-child{border-top:1px solid rgba(198,166,102,.14)}
+  .no{font-size:11px;color:var(--gold);letter-spacing:.15em;min-width:30px}
+  .step-t{font-size:14px;letter-spacing:.08em}
+  .step-d{margin-left:auto;font-size:11px;color:var(--muted)}
+  ul.plans{list-style:none}
+  ul.plans li{padding:23px 4px;border-bottom:1px solid rgba(198,166,102,.14);display:flex;align-items:baseline;gap:14px}
+  ul.plans li:first-child{border-top:1px solid rgba(198,166,102,.14)}
+  .plan-name{font-family:var(--serif);font-size:17px;font-weight:600;color:var(--gold)}
+  .plan-desc{flex:1;font-size:11px;color:var(--muted)}
+  .plan-price{font-size:16px;color:var(--ink)}
+  .plan-price::before{content:"¥";font-size:11px;color:var(--muted)}
+  footer{margin-top:64px;padding:26px 28px calc(30px + env(safe-area-inset-bottom));border-top:1px solid var(--hairline);display:flex;justify-content:space-between}
+  footer p{font-size:9px;letter-spacing:.3em;color:var(--muted)}
+  footer span{font-size:9px;letter-spacing:.2em;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="rise"><div class="brand">FLORA</div><div class="lang">HAUTE FLORISTERIE</div></header>
+
+  <section class="hero">
+    <div class="kicker rise d1">为心意而生</div>
+    <h1 class="rise d1">每一束，<br>都<em>不可复制</em>。</h1>
+    <p class="rise d2">你述说心意，我们以花作答。从选材到成束，全程手工，只为那一位收花人。</p>
+    <a class="cta rise d3" href="#">预约定制</a>
+    <div class="queue-note rise d3">本日名额仅余 <b>3</b> 席 · 最早可排 8 月 26 日</div>
+  </section>
+
+  <figure class="work rise d3"></figure>
+  <figcaption class="rise d3"><span>「暮金」· 高定作品</span><span>PIÈCE UNIQUE</span></figcaption>
+
+  <section>
+    <div class="sec-head"><i>PROCESS</i><h2>定制之礼</h2></div>
+    <ol class="steps">
+      <li><span class="no">Ⅰ</span><span class="step-t">倾诉心意</span><span class="step-d">花种 · 色系 · 参考图</span></li>
+      <li><span class="no">Ⅱ</span><span class="step-t">甄选套餐</span><span class="step-d">三档 · 当场付清</span></li>
+      <li><span class="no">Ⅲ</span><span class="step-t">静候打磨</span><span class="step-d">进度微信送达</span></li>
+      <li><span class="no">Ⅳ</span><span class="step-t">作品启封</span><span class="step-d">专属作品页 · 影集</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="sec-head"><i>COLLECTION</i><h2>臻选套餐</h2></div>
+    <ul class="plans">
+      <li><span class="plan-name">初见</span><span class="plan-desc">单主花材 · 简约包装</span><span class="plan-price">299</span></li>
+      <li><span class="plan-name">心事</span><span class="plan-desc">双花材混搭 · 精致包装</span><span class="plan-price">599</span></li>
+      <li><span class="plan-name">臻藏</span><span class="plan-desc">设计师全权创作 · 珍藏礼盒</span><span class="plan-price">999</span></li>
+    </ul>
+  </section>
+
+  <footer><p>FLORA ATELIER</p><span>抖音 · @flora作品集</span></footer>
+</div>
+</body>
+</html>
