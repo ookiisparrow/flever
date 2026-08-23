@@ -38,10 +38,10 @@
   .pad{padding:0 26px}
 
   /* Hero */
-  /* 作品图统一规则：一律 1:1 正方形（含主视觉与缩略图） */
+  /* 作品图统一规则：一律 1:1 正方形（含主视觉与缩略图）；一律直角，不加圆角 */
   .hero{padding-top:26px;text-align:center}
   .stage{
-    margin:0 20px;aspect-ratio:1/1;border-radius:22px;position:relative;
+    margin:0 20px;aspect-ratio:1/1;border-radius:0;position:relative;
     background:
       radial-gradient(70% 60% at 35% 28%,#FAFAF9 0%,transparent 62%),
       radial-gradient(65% 65% at 72% 75%,#DFDFDD 0%,transparent 58%),
@@ -78,7 +78,7 @@
   .strip::before,.strip::after{content:"";flex:none;width:14px}
   .strip::-webkit-scrollbar{display:none}
   .shot-wrap{flex:none;width:126px}
-  .shot{width:126px;aspect-ratio:1/1;border-radius:16px}
+  .shot{width:126px;aspect-ratio:1/1;border-radius:0}
   .s1{background:linear-gradient(150deg,#ECECEB,#D9D9D7)}
   .s2{background:linear-gradient(150deg,#E9EAE8,#D4D6D2)}
   .s3{background:linear-gradient(150deg,#EEEEED,#DBDBD9)}
