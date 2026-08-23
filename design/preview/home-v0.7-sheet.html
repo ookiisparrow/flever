@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>花艺定制 · 首页预览 v0.7 整块大版式</title>
+<style>
+  :root{
+    --bg:#F1F1F0;
+    --card:#FFFFFF;
+    --ink:#1C1C1B;
+    --gray:#8A8A87;
+    --faint:#B8B8B4;
+    --accent:#E8632B;
+    --line:#EFEEEC;
+    --shadow:0 18px 50px rgba(28,28,27,.07), 0 2px 10px rgba(28,28,27,.04);
+    --radius:30px;
+    --sans:"PingFang SC","Helvetica Neue",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#E5E5E4;font-family:var(--sans);color:var(--ink);display:flex;justify-content:center;min-height:100vh}
+  .phone{width:100%;max-width:420px;background:var(--bg);min-height:100vh;padding-bottom:44px}
+  @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .rise{animation:rise .8s cubic-bezier(.22,.61,.36,1) both}
+  .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none}}
+
+  header{display:flex;justify-content:center;padding:24px 0 18px}
+  .brand{font-size:14px;font-weight:600;letter-spacing:.04em;display:flex;align-items:center;gap:7px}
+  .brand::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+  /* ---- 唯一的大白卡：整页内容都在这一块里 ---- */
+  .sheet{
+    margin:0 14px;background:var(--card);
+    border-radius:var(--radius);box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .pad{padding:0 26px}
+
+  /* Hero */
+  .hero{padding-top:26px;text-align:center}
+  .stage{
+    margin:0 20px;height:240px;border-radius:22px;position:relative;
+    background:
+      radial-gradient(70% 60% at 35% 28%,#FAFAF9 0%,transparent 62%),
+      radial-gradient(65% 65% at 72% 75%,#DFDFDD 0%,transparent 58%),
+      linear-gradient(155deg,#F4F4F3,#E2E2E0);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .stage span{font-size:10px;letter-spacing:.35em;text-indent:.35em;color:#AEAEAA}
+  .stage .chip{
+    position:absolute;right:14px;top:14px;
+    display:flex;align-items:center;gap:6px;
+    background:#fff;border-radius:999px;padding:6px 12px;
+    font-size:11px;color:var(--ink);box-shadow:0 3px 10px rgba(28,28,27,.06);
+  }
+  .stage .chip::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  h1{font-size:22px;font-weight:700;line-height:1.55;margin:26px 0 10px}
+  .lede{font-size:12.5px;line-height:2;color:var(--gray);margin-bottom:24px}
+  .cta-row{display:flex;align-items:center;justify-content:center;gap:16px;padding-bottom:34px}
+  .cta{
+    background:var(--ink);color:#fff;font-size:13px;font-weight:600;
+    letter-spacing:.08em;padding:14px 40px;border-radius:999px;text-decoration:none;
+  }
+  .queue{font-size:11px;color:var(--gray);text-align:left;line-height:1.8}
+  .queue b{color:var(--ink);font-weight:600}
+  .queue i{font-style:normal;display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:5px;vertical-align:2px}
+
+  /* 区块通用标题（大留白 + 细线过渡，不再独立小卡） */
+  .sec{padding-top:38px;padding-bottom:38px;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+  .sec-head h2{font-size:16px;font-weight:700}
+  .sec-head span{font-size:11px;color:var(--faint)}
+
+  /* 作品横滑：出血到卡片边缘，更显整体 */
+  .strip{display:flex;gap:10px;overflow-x:auto;padding:0 26px;scrollbar-width:none;margin:0 -26px}
+  .strip::before,.strip::after{content:"";flex:none;width:14px}
+  .strip::-webkit-scrollbar{display:none}
+  .shot-wrap{flex:none;width:126px}
+  .shot{width:126px;height:158px;border-radius:16px}
+  .s1{background:linear-gradient(150deg,#ECECEB,#D9D9D7)}
+  .s2{background:linear-gradient(150deg,#E9EAE8,#D4D6D2)}
+  .s3{background:linear-gradient(150deg,#EEEEED,#DBDBD9)}
+  .s4{background:linear-gradient(150deg,#E7E7E6,#D2D2D0)}
+  .shot-cap{font-size:10px;color:var(--faint);padding:9px 2px 0}
+
+  /* 流程 */
+  ol.steps{list-style:none}
+  ol.steps li{display:flex;align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid var(--line)}
+  ol.steps li:last-child{border-bottom:none;padding-bottom:0}
+  .dot-no{
+    width:27px;height:27px;border-radius:50%;flex:none;
+    border:1px solid #E7E7E5;color:var(--gray);
+    display:flex;align-items:center;justify-content:center;font-size:11px;
+  }
+  .step-t{font-size:13.5px;font-weight:600}
+  .step-d{margin-left:auto;font-size:11px;color:var(--faint)}
+
+  /* 套餐 */
+  ul.plan-list{list-style:none}
+  ul.plan-list li{
+    display:flex;align-items:baseline;gap:12px;
+    padding:17px 0;border-bottom:1px solid var(--line);
+  }
+  ul.plan-list li:last-child{border-bottom:none;padding-bottom:0}
+  .plan-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
+  .plan-name i{font-style:normal;width:4px;height:4px;border-radius:50%;background:var(--accent);flex:none}
+  .plan-desc{flex:1;font-size:11px;color:var(--gray)}
+  .plan-price{font-size:15px;font-weight:700}
+  .plan-price::before{content:"¥ ";font-size:10px;color:var(--faint);font-weight:400}
+
+  /* 尾注：仍在同一张卡内收尾 */
+  .colophon{
+    margin-top:38px;padding:24px 26px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;
+    background:#FCFCFB;
+  }
+  .colophon p{font-size:9px;letter-spacing:.32em;color:var(--faint)}
+  .colophon span{font-size:10px;color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <header class="rise"><div class="brand">flora 花艺定制</div></header>
+
+  <div class="sheet rise d1">
+
+    <!-- 第一大块：主视觉 -->
+    <div class="hero">
+      <div class="stage">
+        <span>作 品 图</span>
+        <span class="chip">今日可约</span>
+      </div>
+      <h1>定制一束，只属于你的花</h1>
+      <p class="lede pad">选好花材与色系，附一张心仪的参考图。我们从头开始，为你只做这一次。</p>
+      <div class="cta-row">
+        <a class="cta" href="#">开始定制</a>
+        <div class="queue"><i></i>今日还剩 <b>3</b> 个名额<br>最早可排 8 月 26 日</div>
+      </div>
+    </div>
+
+    <!-- 第二大块：作品 -->
+    <div class="sec">
+      <div class="sec-head pad"><h2>往期作品</h2><span>滑动查看</span></div>
+      <div class="strip">
+        <div class="shot-wrap"><div class="shot s1"></div><div class="shot-cap">「山茶与雾」</div></div>
+        <div class="shot-wrap"><div class="shot s2"></div><div class="shot-cap">「白露」</div></div>
+        <div class="shot-wrap"><div class="shot s3"></div><div class="shot-cap">「暮金」</div></div>
+        <div class="shot-wrap"><div class="shot s4"></div><div class="shot-cap">「拾夏」</div></div>
+      </div>
+    </div>
+
+    <!-- 第三大块：流程 -->
+    <div class="sec pad">
+      <div class="sec-head"><h2>怎么定制</h2><span>全程约 3 分钟</span></div>
+      <ol class="steps">
+        <li><span class="dot-no">1</span><span class="step-t">选择偏好</span><span class="step-d">花种 · 色系 · 参考图</span></li>
+        <li><span class="dot-no">2</span><span class="step-t">挑选套餐</span><span class="step-d">当场付清</span></li>
+        <li><span class="dot-no">3</span><span class="step-t">排队制作</span><span class="step-d">微信进度提醒</span></li>
+        <li><span class="dot-no">4</span><span class="step-t">作品交付</span><span class="step-d">专属作品页 · 影集</span></li>
+      </ol>
+    </div>
+
+    <!-- 第四大块：套餐 -->
+    <div class="sec pad" style="padding-bottom:0">
+      <div class="sec-head"><h2>套餐</h2><span>差异为花材与规格</span></div>
+      <ul class="plan-list">
+        <li><span class="plan-name"><i></i>初见</span><span class="plan-desc">单主花材 · 简约包装</span><span class="plan-price">299</span></li>
+        <li><span class="plan-name"><i></i>心事</span><span class="plan-desc">双花材混搭 · 精致包装</span><span class="plan-price">599</span></li>
+        <li><span class="plan-name"><i></i>臻藏</span><span class="plan-desc">设计师全权创作 · 珍藏礼盒</span><span class="plan-price">999</span></li>
+      </ul>
+    </div>
+
+    <!-- 卡内收尾 -->
+    <div class="colophon">
+      <p>FLORA ATELIER</p>
+      <span>开始定制 →</span>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
