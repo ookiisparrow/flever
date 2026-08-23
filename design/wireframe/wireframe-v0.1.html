@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花艺定制 · 交互线框原型 v0.1（只看框架，不看美观）</title>
+<style>
+  :root{
+    --bg:#EDEDEB; --box:#E0E0DD; --line:#C9C9C4; --ink:#3A3A37;
+    --note:#FFF3B8; --accent:#5B3E96;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#DDD;d;font-family:"PingFang SC",sans-serif;color:var(--ink);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding-bottom:90px}
+  h4{font-size:11px;color:#888;margin:14px 0 6px;letter-spacing:.1em}
+
+  .phone{width:100%;max-width:400px;background:var(--bg);min-height:100vh;position:relative;display:none}
+  .phone.active{display:block}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px dashed var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  .back{width:32px;height:32px;border-radius:50%;background:var(--box);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+  .title{font-size:15px;font-weight:600}
+  .content{padding:18px}
+
+  /* 线框元素 */
+  .bx{background:var(--box);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7A7A75;font-size:12px;margin-bottom:12px;text-align:center;line-height:1.6;padding:10px}
+  .bx.img{aspect-ratio:1/1}          /* 作品图 1:1 直角 */
+  .bx.tall{height:120px}
+  .row{display:flex;gap:10px}
+  .row .bx{flex:1}
+  .btn{background:var(--ink);color:#fff;border-radius:10px;padding:14px;text-align:center;font-size:14px;cursor:pointer;margin-top:6px}
+  .btn.sec{background:var(--box);color:var(--ink)}
+  .chip{display:inline-block;background:var(--box);border-radius:6px;padding:8px 14px;font-size:13px;margin:0 8px 8px 0;cursor:pointer;border:2px solid transparent}
+  .chip.sel{border-color:var(--accent);color:var(--accent)}
+  .field{border:2px dashed var(--line);border-radius:10px;padding:22px;text-align:center;color:#999;font-size:12px;margin-bottom:12px}
+  .note{background:var(--note);border-radius:8px;padding:10px 12px;font-size:11px;color:#7A6A20;margin:10px 0;line-height:1.7}
+  .divider{height:1px;background:var(--line);margin:16px 0}
+
+  /* 原型导航条 */
+  .proto-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:99;
+    background:#26262B;color:#ccc;display:flex;overflow-x:auto;
+    padding:10px 8px calc(10px + env(safe-area-inset-bottom));gap:6px;
+  }
+  .proto-nav button{
+    flex:none;background:#3A3A41;border:none;color:#ccc;
+    font-size:11px;padding:8px 12px;border-radius:8px;cursor:pointer;
+    white-space:nowrap;font-family:inherit;
+  }
+  .proto-nav button.on{background:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ========= 1 首页 ========= -->
+<div class="phone active" id="p-home">
+  <div class="topbar"><div class="title">① 首页</div></div>
+  <div class="content">
+    <div class="bx img" style="aspect-ratio:auto;height:200px">主视觉作品图（1:1）<br>+ 标题 + 开始定制按钮</div>
+    <div class="note">→ 已有高保真稿（v0.9）。此处只示意入口位置。</div>
+    <div class="bx tall">往期作品横滑条</div>
+    <div class="bx tall">定制流程 1-2-3-4</div>
+    <div class="bx tall">套餐三档（299/599/999）</div>
+    <div class="btn" onclick="go('f1')">开始定制 → 进入表单第一步</div>
+    <div class="btn sec" onclick="go('orders')">我的订单入口</div>
+  </div>
+</div>
+
+<!-- ========= 2 表单·花种 ========= -->
+<div class="phone" id="p-f1">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">② 定制 · 选花种（第1步/共4步）</div></div>
+  <div class="content">
+    <div class="note">进度条：●○○○　每步可返回，草稿自动保存</div>
+    <div class="bx tall" style="height:70px">搜索 / 筛选（可选）</div>
+    花种多选：
+    <div>
+      <span class="chip sel">玫瑰</span><span class="chip">郁金香</span><span class="chip">向日葵</span><span class="chip">洋桔梗</span><span class="chip">尤加利叶</span><span class="chip">+ 更多</span>
+    </div>
+    <div class="note">交互参考您 Pinterest 那张「Create a Bouquet」：点花材出小卡，可带数量</div>
+    <div class="btn sec" onclick="go('f2')">下一步：选色系 →</div>
+  </div>
+</div>
+
+<!-- ========= 3 表单·色系 ========= -->
+<div class="phone" id="p-f2">
+  <div class="topbar"><div class="back" onclick="go('f1')">‹</div><div class="title">③ 定制 · 选色系（第2步/共4步）</div></div>
+  <div class="content">
+    <div class="note">进度条：●●○○</div>
+    色系单选：
+    <div class="row"><div class="bx" style="height:64px">暖橙系</div><div class="bx" style="height:64px">粉紫系</div></div>
+    <div class="row"><div class="bx" style="height:64px">白绿系</div><div class="bx" style="height:64px">莫兰迪</div></div>
+    <div class="row"><div class="bx" style="height:64px">复古色</div><div class="bx" style="height:64px">让设计师定</div></div>
+    <div class="btn sec" onclick="go('f3')">下一步：上传参考图 →</div>
+  </div>
+</div>
+
+<!-- ========= 4 表单·参考图 ========= -->
+<div class="phone" id="p-f3">
+  <div class="topbar"><div class="back" onclick="go('f2')">‹</div><div class="title">④ 定制 · 上传参考图（第3步/共4步）</div></div>
+  <div class="content">
+    <div class="note">进度条：●●●○　规则：最多 2 张，单张 ≤10MB，jpg/png/webp</div>
+    <div class="field">＋ 点此上传 / 拍照<br>（或从微信聊天选择）</div>
+    <div class="row">
+      <div class="bx img">已传图1<br>[删除]</div>
+      <div class="bx img">已传图2<br>[删除]</div>
+    </div>
+    <div class="field" style="padding:12px">想说的话（选填）：例如"妈妈生日，喜欢安静一点的"</div>
+    <div class="btn sec" onclick="go('f4')">下一步：选套餐 →</div>
+  </div>
+</div>
+
+<!-- ========= 5 表单·套餐+确认 ========= -->
+<div class="phone" id="p-f4">
+  <div class="topbar"><div class="back" onclick="go('f3')">‹</div><div class="title">⑤ 定制 · 选套餐并支付（第4步/共4步）</div></div>
+  <div class="content">
+    <div class="note">进度条：●●●●　本页展示实时排队信息</div>
+    <div class="bx" style="height:44px">今日还剩 3 个名额 · 最早可排 8/26</div>
+    <div class="bx tall">初见 ¥299 —— 单主花材·简约包装 [选]</div>
+    <div class="bx tall" style="outline:2px solid var(--accent)">心事 ¥599 —— 双花材混搭 [人气✔]</div>
+    <div class="bx tall">臻藏 ¥999 —— 设计师全权创作</div>
+    <div class="bx" style="height:56px">已选内容回显：玫瑰+郁金香 / 莫兰迪 / 参考图×1</div>
+    <div class="btn" onclick="go('pay')">确认并微信支付 ¥599（30分钟内有效）</div>
+    <div class="note">点支付 → 锁定名额30分钟；超时未付自动释放（已确认规则）</div>
+  </div>
+</div>
+
+<!-- ========= 6 支付结果 ========= -->
+<div class="phone" id="p-pay">
+  <div class="topbar"><div class="title">⑥ 支付成功</div></div>
+  <div class="content">
+    <div class="bx img" style="aspect-ratio:auto;height:110px">✓ 支付成功动画</div>
+    <div class="bx" style="height:52px">订单号 FL20260823-0047</div>
+    <div class="bx" style="height:52px">你的排队位置：第 4 位 · 预计 8 月 28 日前交付</div>
+    <div class="note">同时发服务号模板消息：「下单成功」→ 引导关注服务号收进度</div>
+    <div class="btn sec" onclick="go('orders')">查看我的订单</div>
+    <div class="btn sec" onclick="go('home')">返回首页</div>
+  </div>
+</div>
+
+<!-- ========= 7 我的订单 ========= -->
+<div class="phone" id="p-orders">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">⑦ 我的订单（凭手机号查）</div></div>
+  <div class="content">
+    <div class="bx" style="height:48px">输入手机号 + 验证码 查询</div>
+    <div class="divider"></div>
+    订单卡片列表：
+    <div class="bx tall">FL…0047 · 心事¥599<br>状态：<b>制作中（第2道工序）</b> [查看详情]</div>
+    <div class="bx tall">FL…0031 · 初见¥299<br>状态：已完成 [看作品页]</div>
+    <div class="note">商家在后台更新状态 → 服务号自动推送顾客</div>
+  </div>
+</div>
+
+<!-- ========= 8 作品诞生页 ========= -->
+<div class="phone" id="p-work">
+  <div class="topbar"><div class="back" onclick="go('orders')">‹</div><div class="title">⑧ 作品诞生页（交付仪式感）</div></div>
+  <div class="content">
+    <div class="bx img">成品大图（1:1 直角）</div>
+    <div class="bx img">成品细节图（可横滑多张）</div>
+    <div class="bx" style="height:48px">专属编号 No.0047 · 「山茶与雾」</div>
+    <div class="bx" style="height:48px">你的定制信息回显：玫瑰/莫兰迪/参考图对照</div>
+    <div class="btn sec">▶ 到抖音看这件作品的摄影大片</div>
+    <div class="btn sec">📺 直播间预告（可选）</div>
+    <div class="note">服务号推送「作品已完成」→ 点开即达本页；页面适合截图分享</div>
+  </div>
+</div>
+
+<!-- ========= 原型导航 ========= -->
+<div class="proto-nav">
+  <button data-p="home" class="on">①首页</button>
+  <button data-p="f1">②选花种</button>
+  <button data-p="f2">③选色系</button>
+  <button data-p="f3">④传参考图</button>
+  <button data-p="f4">⑤套餐支付</button>
+  <button data-p="pay">⑥支付结果</button>
+  <button data-p="orders">⑦我的订单</button>
+  <button data-p="work">⑧作品诞生页</button>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.phone').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.proto-nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.proto-nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+// 演示用：色系/花种 chip 可点选
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>c.classList.toggle('sel'));
+</script>
+</body>
+</html>
