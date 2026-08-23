@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花艺定制 · 交互线框原型 v0.2（新选单逻辑：主花推荐/款式/花叶/色彩/双档+排期）</title>
+<style>
+  :root{
+    --bg:#EDEDEB; --box:#E0E0DD; --line:#C9C9C4; --ink:#3A3A37;
+    --note:#FFF3B8; --accent:#5B3E96;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#DDD;font-family:"PingFang SC",sans-serif;color:var(--ink);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding-bottom:90px}
+
+  .phone{width:100%;max-width:400px;background:var(--bg);min-height:100vh;position:relative;display:none}
+  .phone.active{display:block}
+  .topbar{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px dashed var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  .back{width:32px;height:32px;border-radius:50%;background:var(--box);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+  .title{font-size:15px;font-weight:600}
+  .content{padding:18px}
+
+  .bx{background:var(--box);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7A7A75;font-size:12px;margin-bottom:12px;text-align:center;line-height:1.6;padding:10px}
+  .bx.img{aspect-ratio:1/1}
+  .bx.tall{height:120px}
+  .row{display:flex;gap:10px}
+  .row .bx{flex:1}
+  .btn{background:var(--ink);color:#fff;border-radius:10px;padding:14px;text-align:center;font-size:14px;cursor:pointer;margin-top:6px}
+  .btn.sec{background:var(--box);color:var(--ink)}
+  .chip{display:inline-block;background:var(--box);border-radius:6px;padding:8px 14px;font-size:13px;margin:0 8px 8px 0;cursor:pointer;border:2px solid transparent}
+  .chip.sel{border-color:var(--accent);color:var(--accent)}
+  .note{background:var(--note);border-radius:8px;padding:10px 12px;font-size:11px;color:#7A6A20;margin:10px 0;line-height:1.7}
+  .divider{height:1px;background:var(--line);margin:16px 0}
+  .sec-label{font-size:12px;color:#888;margin:14px 0 8px;letter-spacing:.05em}
+
+  /* 主花推荐位 */
+  .flower-grid{display:flex;gap:10px;margin-bottom:12px}
+  .fslot{flex:1;background:var(--box);border-radius:10px;padding:10px 6px;text-align:center;font-size:11px;color:#7A7A75;border:2px solid transparent;cursor:pointer;position:relative}
+  .fslot .ph{width:100%;aspect-ratio:1/1;background:#D4D4D0;border-radius:8px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:10px}
+  .fslot .tag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#888;color:#fff;font-size:9px;padding:2px 7px;border-radius:6px}
+  .fslot.sel{border-color:var(--accent)}
+  .fslot.main .tag{background:var(--accent)}
+
+  /* 甘特排期 */
+  .gantt{background:var(--box);border-radius:10px;padding:14px;margin-bottom:12px}
+  .g-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .g-label{font-size:10px;color:#7A7A75;width:64px;flex:none;text-align:right}
+  .g-track{flex:1;height:22px;background:#D6D6D2;border-radius:5px;position:relative;overflow:hidden}
+  .g-bar{position:absolute;top:3px;bottom:3px;background:#ABAB A6;background:#ABABA6;border-radius:4px;font-size:9px;color:#fff;display:flex;align-items:center;padding:0 6px;white-space:nowrap}
+  .g-bar.mine{background:var(--accent)}
+  .g-days{display:flex;gap:8px;margin-left:72px;font-size:9px;color:#999;margin-bottom:4px}
+  .g-days span{flex:1;text-align:center}
+
+  .proto-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:99;
+    background:#26262B;color:#ccc;display:flex;overflow-x:auto;
+    padding:10px 8px calc(10px + env(safe-area-inset-bottom));gap:6px;
+  }
+  .proto-nav button{
+    flex:none;background:#3A3A41;border:none;color:#ccc;
+    font-size:11px;padding:8px 12px;border-radius:8px;cursor:pointer;
+    white-space:nowrap;font-family:inherit;
+  }
+  .proto-nav button.on{background:var(--accent);color:#fff}
+</style>
+</head>
+<body>
+
+<!-- ========= 1 首页 ========= -->
+<div class="phone active" id="p-home">
+  <div class="topbar"><div class="title">① 首页</div></div>
+  <div class="content">
+    <div class="bx" style="aspect-ratio:auto;height:190px">主视觉作品图（1:1 直角）<br>标题 + 开始定制按钮 + 今日可约提示</div>
+    <div class="bx tall">往期作品横滑（1:1 直角）</div>
+    <div class="bx tall">定制流程示意（选主花 → 定款式 → 配色彩 → 定档位）</div>
+    <div class="bx tall">两个档位入口：1280 / 3280（体量相近，花材不同）</div>
+    <div class="btn" onclick="go('f1')">开始定制 →</div>
+    <div class="btn sec" onclick="go('orders')">我的订单</div>
+  </div>
+</div>
+
+<!-- ========= 2 选主花 ========= -->
+<div class="phone" id="p-f1">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">② 定制 · 选主花（1/4）</div></div>
+  <div class="content">
+    <div class="note">规则：只能从<b>本期推荐的主花</b>中选，选 1~3 种。推荐位共 5 个：3 个主位 + 2 个副位；<b>推荐会定期轮换</b>（由商家后台配置）。</div>
+    <div class="sec-label">主位推荐（3）</div>
+    <div class="flower-grid">
+      <div class="fslot main sel" onclick="this.classList.toggle('sel')"><span class="tag">主位</span><div class="ph">花图</div>花名A</div>
+      <div class="fslot main" onclick="this.classList.toggle('sel')"><span class="tag">主位</span><div class="ph">花图</div>花名B</div>
+      <div class="fslot main" onclick="this.classList.toggle('sel')"><span class="tag">主位</span><div class="ph">花图</div>花名C</div>
+    </div>
+    <div class="sec-label">副位推荐（2）</div>
+    <div class="flower-grid">
+      <div class="fslot" onclick="this.classList.toggle('sel')"><span class="tag">副位</span><div class="ph">花图</div>花名D</div>
+      <div class="fslot" onclick="this.classList.toggle('sel')"><span class="tag">副位</span><div class="ph">花图</div>花名E</div>
+    </div>
+    <div class="bx" style="height:40px">已选 1/3：花名A</div>
+    <div class="btn sec" onclick="go('f2')">下一步：定款式 →</div>
+  </div>
+</div>
+
+<!-- ========= 3 款式与主次 ========= -->
+<div class="phone" id="p-f2">
+  <div class="topbar"><div class="back" onclick="go('f1')">‹</div><div class="title">③ 定制 · 款式与主次（2/4）</div></div>
+  <div class="content">
+    <div class="sec-label">款式（二选一）</div>
+    <div class="row">
+      <div class="bx" style="height:88px;outline:2px solid var(--accent);cursor:pointer" onclick="alert('选中：混搭')">混搭<br>多种花材交织</div>
+      <div class="bx" style="height:88px;cursor:pointer" onclick="alert('选中：纯粹主花')">纯粹主花<br>单一花材成束</div>
+    </div>
+    <div class="sec-label">花与叶的关系（三选一）</div>
+    <div class="row">
+      <div class="bx" style="height:88px;outline:2px solid var(--accent);cursor:pointer" onclick="alert('选中：花是主角')">花是绝对主角</div>
+      <div class="bx" style="height:88px;cursor:pointer" onclick="alert('选中：平衡')">花叶平衡</div>
+      <div class="bx" style="height:88px;cursor:pointer" onclick="alert('选中：叶主角')">叶才是主角</div>
+    </div>
+    <div class="note">三选一用示意图/示意小动画表达更直观（高保真阶段做）</div>
+    <div class="btn sec" onclick="go('f3')">下一步：配色彩 →</div>
+  </div>
+</div>
+
+<!-- ========= 4 主题色与辅助色 ========= -->
+<div class="phone" id="p-f3">
+  <div class="topbar"><div class="back" onclick="go('f2')">‹</div><div class="title">④ 定制 · 配色彩（3/4）</div></div>
+  <div class="content">
+    <div class="sec-label">主题色（必选其一）</div>
+    <div class="row">
+      <div class="bx" style="height:70px;outline:2px solid var(--accent);cursor:pointer">色块A</div>
+      <div class="bx" style="height:70px;cursor:pointer">色块B</div>
+      <div class="bx" style="height:70px;cursor:pointer">色块C</div>
+    </div>
+    <div class="row">
+      <div class="bx" style="height:70px;cursor:pointer">色块D</div>
+      <div class="bx" style="height:70px;cursor:pointer">色块E</div>
+      <div class="bx" style="height:70px;cursor:pointer">色块F</div>
+    </div>
+    <div class="sec-label">辅助色（选 1~2 个，可不选）</div>
+    <div>
+      <span class="chip">浅粉</span><span class="chip">雾蓝</span><span class="chip">奶白</span><span class="chip">灰绿</span><span class="chip">跳过 →</span>
+    </div>
+    <div class="note">色块用真实花艺照片做色卡（高保真阶段）</div>
+    <div class="btn sec" onclick="go('f4')">下一步：选档位 →</div>
+  </div>
+</div>
+
+<!-- ========= 5 档位 + 排期甘特 ========= -->
+<div class="phone" id="p-f4">
+  <div class="topbar"><div class="back" onclick="go('f3')">‹</div><div class="title">⑤ 定制 · 档位与排期（4/4）</div></div>
+  <div class="content">
+    <div class="sec-label">档位（二选一，体量相近，花材等级不同）</div>
+    <div class="row">
+      <div class="bx" style="height:110px;outline:2px solid var(--accent);cursor:pointer"><div>经典<br><b style="font-size:16px">¥1280</b><br>当季优选花材</div></div>
+      <div class="bx" style="height:110px;cursor:pointer"><div>臻选<br><b style="font-size:16px">¥3280</b><br>稀缺花材·进阶工艺</div></div>
+    </div>
+    <div class="sec-label">你的等待排期</div>
+    <div class="gantt">
+      <div class="g-days"><span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span></div>
+      <div class="g-row"><div class="g-label">制作中·单1</div><div class="g-track"><div class="g-bar" style="left:0;width:40%">制作</div></div></div>
+      <div class="g-row"><div class="g-label">制作中·单2</div><div class="g-track"><div class="g-bar" style="left:20%;width:45%">制作</div></div></div>
+      <div class="g-row"><div class="g-label">你的位置</div><div class="g-track"><div class="g-bar mine" style="left:55%;width:30%">你 · 预计周四起做</div></div></div>
+      <div class="g-row"><div class="g-label">交付</div><div class="g-track"><div class="g-bar mine" style="left:85%;width:14%">交付</div></div></div>
+    </div>
+    <div class="note">甘特图目的：让顾客直观看到"前面有几单在做、我大概哪天轮到、哪天交付"。也可考虑更简洁的时间轴/日历视图（高保真阶段做两版对比）</div>
+    <div class="bx" style="height:52px">已选回显：花名A · 混搭 · 花主角 · 主题色A+辅助色浅粉</div>
+    <div class="btn" onclick="go('pay')">确认并微信支付 ¥1280</div>
+  </div>
+</div>
+
+<!-- ========= 6 支付结果 ========= -->
+<div class="phone" id="p-pay">
+  <div class="topbar"><div class="title">⑥ 支付成功</div></div>
+  <div class="content">
+    <div class="bx" style="height:100px">✓ 支付成功</div>
+    <div class="bx" style="height:48px">订单号 FL20260823-0047</div>
+    <div class="bx" style="height:64px">你的排期：X 月 X 日进入制作 · X 月 X 日前交付</div>
+    <div class="note">服务号推送「下单成功」，引导关注收进度</div>
+    <div class="btn sec" onclick="go('orders')">查看我的订单</div>
+  </div>
+</div>
+
+<!-- ========= 7 我的订单 ========= -->
+<div class="phone" id="p-orders">
+  <div class="topbar"><div class="back" onclick="go('home')">‹</div><div class="title">⑦ 我的订单</div></div>
+  <div class="content">
+    <div class="bx" style="height:48px">手机号 + 验证码查询</div>
+    <div class="bx tall">FL…0047 · 经典 ¥1280<br>状态：制作中 · 预计周四交付 [详情]</div>
+    <div class="bx tall">FL…0031 · 已完成 [看作品页]</div>
+  </div>
+</div>
+
+<!-- ========= 8 作品诞生页 ========= -->
+<div class="phone" id="p-work">
+  <div class="topbar"><div class="back" onclick="go('orders')">‹</div><div class="title">⑧ 作品诞生页</div></div>
+  <div class="content">
+    <div class="bx img">成品大图 1:1 直角</div>
+    <div class="bx img">细节图（横滑）</div>
+    <div class="bx" style="height:44px">专属编号 No.0047</div>
+    <div class="bx" style="height:64px">定制回显：花名A · 混搭 · 花主角 · 主题色A</div>
+    <div class="btn sec">▶ 到抖音看摄影大片</div>
+  </div>
+</div>
+
+<div class="proto-nav">
+  <button data-p="home" class="on">①首页</button>
+  <button data-p="f1">②选主花</button>
+  <button data-p="f2">③款式主次</button>
+  <button data-p="f3">④配色彩</button>
+  <button data-p="f4">⑤档位排期</button>
+  <button data-p="pay">⑥支付结果</button>
+  <button data-p="orders">⑦我的订单</button>
+  <button data-p="work">⑧作品页</button>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.phone').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.proto-nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===id));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.proto-nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>c.classList.toggle('sel'));
+</script>
+</body>
+</html>
