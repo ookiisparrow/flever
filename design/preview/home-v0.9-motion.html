@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>花艺定制 · 首页预览 v0.9 动效版（基础版+动效技能）</title>
+<style>
+  :root{
+    --apple-bg-white:#FFFFFF;
+    --apple-bg-light-gray:#F5F5F7;
+    --apple-text-primary:#1D1D1F;
+    --apple-text-secondary:#6E6E73;
+    --apple-text-tertiary:#86868B;
+    --accent:#5B3E96;            /* 主题色：暗紫 */
+    --accent-light:#B9A3E3;
+    --apple-font-display:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif;
+    --apple-weight-hero:900;
+    --apple-weight-section:800;
+    --apple-weight-body:400;
+    --apple-weight-medium:500;
+    --apple-weight-semibold:600;
+    --apple-radius-card:18px;
+    --apple-radius-button:980px;
+    --apple-shadow-card:0 2px 8px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.08);
+    /* 动效 Token（silk-design / design-taste 规范） */
+    --ease-out:cubic-bezier(.22,.61,.36,1);      /* 入场：快起缓收 */
+    --ease-spring:cubic-bezier(.34,1.3,.64,1);   /* 按压回弹 */
+    --dur-fast:.25s;
+    --dur-med:.6s;
+    --dur-reveal:.7s;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--apple-bg-light-gray);
+    font-family:var(--apple-font-display);
+    color:var(--apple-text-primary);
+    display:flex;justify-content:center;min-height:100vh;
+  }
+  .phone{width:100%;max-width:420px;min-height:100vh;background:var(--apple-bg-white);padding-bottom:56px}
+
+  /* ===== 动效系统：滚动浮现（design-taste：unseen details compound） ===== */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity var(--dur-reveal) var(--ease-out),transform var(--dur-reveal) var(--ease-out)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal-d1{transition-delay:.07s}
+  .reveal-d2{transition-delay:.14s}
+  .reveal-d3{transition-delay:.21s}
+  @keyframes heroRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .rise{animation:heroRise .9s var(--ease-out) both}
+  .d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+  @media (prefers-reduced-motion:reduce){
+    .rise{animation:none}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---- 导航 ---- */
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:16px 22px;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:saturate(180%) blur(16px);
+    -webkit-backdrop-filter:saturate(180%) blur(16px);
+    position:sticky;top:0;z-index:10;
+    border-bottom:1px solid rgba(0,0,0,.06);
+  }
+  .nav-brand{font-size:15px;font-weight:var(--apple-weight-semibold)}
+  .nav-brand::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:7px;vertical-align:2px}
+  .nav-cta{font-size:13px;color:var(--accent);text-decoration:none;font-weight:var(--apple-weight-medium)}
+
+  /* ---- Hero ---- */
+  .hero{padding:58px 22px 40px;text-align:center}
+  .eyebrow{font-size:12px;font-weight:var(--apple-weight-semibold);color:var(--accent);margin-bottom:14px}
+  h1{
+    font-size:38px;line-height:1.18;
+    font-weight:var(--apple-weight-hero);
+    margin-bottom:16px;
+  }
+  h1 .word{display:inline-block;animation:heroRise .9s var(--ease-out) both}
+  h1 .w2{animation-delay:.12s}
+  h1 .purple{color:var(--accent)}
+  .hero .sub{
+    font-size:16px;line-height:1.7;color:var(--apple-text-secondary);
+    max-width:19em;margin:0 auto 28px;
+  }
+  .hero-actions{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .btn-primary{
+    display:inline-block;background:var(--accent);color:#fff;
+    font-size:15px;font-weight:var(--apple-weight-medium);
+    padding:13px 38px;border-radius:var(--apple-radius-button);
+    text-decoration:none;
+    transition:transform var(--dur-fast) var(--ease-spring),box-shadow var(--dur-fast) var(--ease-out),background var(--dur-fast) ease;
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(91,62,150,.32)}
+  .btn-primary:active{transform:scale(.97);transition-duration:.08s}
+  .queue-line{font-size:12px;color:var(--apple-text-tertiary)}
+  .queue-line b{color:var(--apple-text-primary)}
+
+  /* ---- 主作品图 ---- */
+  .hero-figure{padding:0 22px 56px}
+  .work-hero{
+    width:100%;aspect-ratio:1/1;border-radius:var(--apple-radius-card);
+    overflow:hidden;position:relative;cursor:pointer;
+    background:
+      radial-gradient(70% 60% at 32% 28%,#FBFBFD 0%,transparent 60%),
+      radial-gradient(60% 60% at 74% 74%,#E8E8EC 0%,transparent 58%),
+      linear-gradient(155deg,#F5F5F7,#E3E3E6);
+    box-shadow:var(--apple-shadow-card);
+  }
+  /* silk-design：图片内部微缩放呼吸 */
+  .work-hero::after{
+    content:"作 品 图 1 : 1";
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:11px;letter-spacing:.3em;text-indent:.3em;color:#A8A8AD;
+    transition:transform 1.4s var(--ease-out);
+  }
+  .work-hero:active::after{transform:scale(1.03)}
+
+  /* ---- 分节 ---- */
+  section{padding:0 22px;margin-bottom:56px}
+  .sec-head{margin-bottom:22px}
+  .sec-head .en{font-size:12px;font-weight:var(--apple-weight-semibold);color:var(--apple-text-tertiary);letter-spacing:.04em;margin-bottom:6px}
+  .sec-head h2{font-size:26px;font-weight:var(--apple-weight-section);line-height:1.3}
+
+  /* ---- 作品横滑（带滚动吸附感） ---- */
+  .strip{
+    display:flex;gap:12px;overflow-x:auto;margin:0 -22px;padding:0 22px 4px;
+    scroll-snap-type:x proximity;scrollbar-width:none;
+    scroll-padding-left:22px;
+  }
+  .strip::-webkit-scrollbar{display:none}
+  .shot-wrap{flex:none;width:150px;scroll-snap-align:start}
+  .shot{
+    width:150px;aspect-ratio:1/1;border-radius:var(--apple-radius-card);
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  .shot-wrap:active .shot{transform:scale(.97)}
+  .s1{background:linear-gradient(150deg,#EDEDEF,#DCDCDF)}
+  .s2{background:linear-gradient(150deg,#E9EBE7,#D6D9D2)}
+  .s3{background:linear-gradient(150deg,#EFEEEC,#DDDCD9)}
+  .s4{background:linear-gradient(150deg,#EBECEF,#D8DADF)}
+  .shot-cap{font-size:12px;font-weight:var(--apple-weight-medium);padding:10px 2px 0}
+  .shot-sub{font-size:11px;color:var(--apple-text-tertiary);padding:2px 2px 0}
+
+  /* ---- 流程 ---- */
+  .steps{display:flex;flex-direction:column;gap:12px}
+  .step{
+    background:var(--apple-bg-light-gray);
+    border-radius:var(--apple-radius-card);
+    padding:22px 24px;display:flex;align-items:center;gap:16px;
+    transition:transform var(--dur-fast) var(--ease-out);
+  }
+  .step:active{transform:scale(.985)}
+  .step-no{
+    font-size:28px;font-weight:var(--apple-weight-hero);
+    color:rgba(0,0,0,.12);line-height:1;min-width:40px;
+    transition:color var(--dur-med) var(--ease-out);
+  }
+  .step.in .step-no{color:var(--accent)}   /* 浮现时数字染上主题紫 */
+  .step-t{font-size:15px;font-weight:var(--apple-weight-semibold);margin-bottom:3px}
+  .step-d{font-size:12px;color:var(--apple-text-secondary)}
+
+  /* ---- 套餐 ---- */
+  .plans{display:flex;flex-direction:column;gap:12px}
+  .plan{
+    border-radius:var(--apple-radius-card);
+    padding:24px 24px 22px;background:var(--apple-bg-light-gray);
+    position:relative;
+    transition:transform var(--dur-fast) var(--ease-out),box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .plan:active{transform:scale(.985)}
+  .plan.featured{background:var(--apple-text-primary);color:#F5F5F7}
+  .plan-tag{
+    position:absolute;top:18px;right:18px;
+    font-size:10px;font-weight:var(--apple-weight-semibold);
+    color:var(--accent-light);letter-spacing:.03em;
+  }
+  .plan-name{font-size:17px;font-weight:var(--apple-weight-semibold);margin-bottom:4px}
+  .plan-desc{font-size:12px;color:var(--apple-text-secondary);margin-bottom:16px}
+  .plan.featured .plan-desc{color:#A1A1A6}
+  .plan-bottom{display:flex;align-items:baseline;justify-content:space-between}
+  .plan-price{font-size:24px;font-weight:var(--apple-weight-semibold)}
+  .plan-price::before{content:"¥";font-size:14px;color:var(--apple-text-tertiary);margin-right:2px}
+  .plan.featured .plan-price::before{color:#A1A1A6}
+  .plan-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:var(--apple-weight-medium)}
+  .plan.featured .plan-link{color:var(--accent-light)}
+
+  footer{padding:8px 22px 0;text-align:center}
+  footer p{font-size:11px;color:var(--apple-text-tertiary);line-height:1.8}
+  .foot-links{display:flex;justify-content:center;gap:22px;margin-top:8px}
+  .foot-links a{font-size:12px;color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <nav class="rise">
+    <div class="nav-brand">flora</div>
+    <a class="nav-cta" href="#">开始定制 ›</a>
+  </nav>
+
+  <div class="hero rise d1">
+    <div class="eyebrow">FLORA ATELIER · 花艺定制</div>
+    <h1><span class="word w2">定制<span class="purple">一束</span>，</span><br><span class="word w2">只属于你的花。</span></h1>
+    <p class="sub">选好花材与色系，附一张参考图。<br>我们从头开始，为你只做这一次。</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#">开始定制</a>
+      <div class="queue-line">今日还剩 <b>3</b> 个名额 · 最早可排 8 月 26 日</div>
+    </div>
+  </div>
+
+  <div class="hero-figure reveal d1">
+    <div class="work-hero"></div>
+  </div>
+
+  <section class="reveal">
+    <div class="sec-head">
+      <div class="en">GALLERY</div>
+      <h2>往期作品。</h2>
+    </div>
+    <div class="strip">
+      <div class="shot-wrap"><div class="shot s1"></div><div class="shot-cap">「山茶与雾」</div><div class="shot-sub">客定 · 8 月</div></div>
+      <div class="shot-wrap"><div class="shot s2"></div><div class="shot-cap">「白露」</div><div class="shot-sub">客定 · 8 月</div></div>
+      <div class="shot-wrap"><div class="shot s3"></div><div class="shot-cap">「暮金」</div><div class="shot-sub">高定 · 7 月</div></div>
+      <div class="shot-wrap"><div class="shot s4"></div><div class="shot-cap">「拾夏」</div><div class="shot-sub">客定 · 7 月</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="en">PROCESS</div>
+      <h2>三分钟，<br>讲清你的心意。</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step-no">1</div><div><div class="step-t">选择偏好</div><div class="step-d">花种 · 色系 · 上传参考图</div></div></div>
+      <div class="step reveal reveal-d1"><div class="step-no">2</div><div><div class="step-t">挑选套餐</div><div class="step-d">三档可选 · 当场付清</div></div></div>
+      <div class="step reveal reveal-d2"><div class="step-no">3</div><div><div class="step-t">静候成品</div><div class="step-d">排队进度 · 微信实时提醒</div></div></div>
+      <div class="step reveal reveal-d3"><div class="step-no">4</div><div><div class="step-t">作品交付</div><div class="step-d">专属作品页 · 成片影集</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="en">COLLECTION</div>
+      <h2>选择你的套餐。</h2>
+    </div>
+    <div class="plans">
+      <div class="plan reveal">
+        <div class="plan-name">初见</div>
+        <div class="plan-desc">单主花材 · 简约包装</div>
+        <div class="plan-bottom"><span class="plan-price">299</span><a class="plan-link" href="#">选择 ›</a></div>
+      </div>
+      <div class="plan featured reveal reveal-d1">
+        <span class="plan-tag">最受欢迎</span>
+        <div class="plan-name">心事</div>
+        <div class="plan-desc">双花材混搭 · 精致包装</div>
+        <div class="plan-bottom"><span class="plan-price">599</span><a class="plan-link" href="#">选择 ›</a></div>
+      </div>
+      <div class="plan reveal reveal-d2">
+        <div class="plan-name">臻藏</div>
+        <div class="plan-desc">设计师全权创作 · 珍藏礼盒</div>
+        <div class="plan-bottom"><span class="plan-price">999</span><a class="plan-link" href="#">选择 ›</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <p>每一件作品都从零开始，只做一次。</p>
+    <div class="foot-links"><a href="#">抖音 @flora作品集</a><a href="#">联系花艺师</a></div>
+  </footer>
+
+</div>
+
+<script>
+/* ===== 动效引擎：滚动浮现（IntersectionObserver，性能友好） ===== */
+const io = new IntersectionObserver((entries)=>{
+  for(const e of entries){
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);          // 只演一次，不反复闪
+    }
+  }
+},{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
