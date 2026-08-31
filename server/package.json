@@ -1,0 +1,26 @@
+{
+  "name": "flora-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "flora 花艺定制 · 后端（Express + SQLite 服务端渲染，技术栈见 docs/04 定稿）",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "db:init": "node -e \"require('./src/db')\""
+  },
+  "//": {
+    "express": "Web 框架（docs/04 定稿，最主流，AI 语料最足）",
+    "better-sqlite3": "SQLite 驱动（同步 API 简单可靠；服务器 Node v22 有预编译包）",
+    "ejs": "服务端渲染模板（多页方案，docs/04 定稿）",
+    "multer": "参考图上传（multipart 表单处理，官方推荐中间件）",
+    "express-session": "管理后台登录态（一期最简版，内存会话即可）"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "better-sqlite3": "^13.0.3",
+    "ejs": "^3.1.10",
+    "multer": "^1.4.5-lts.2",
+    "express-session": "^1.18.1"
+  },
+  "engines": { "node": ">=22" }
+}

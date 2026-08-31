@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>我的订单 · flora 花艺定制</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="phone active">
+
+  <nav class="rise">
+    <div class="nav-back" onclick="location='/'">‹ 返回</div>
+    <div style="margin-left:auto;font-size:14px;font-weight:var(--w-semi)">我 · 订单</div>
+    <div style="width:34px"></div>
+  </nav>
+
+  <section style="margin-top:22px" class="rise">
+    <form method="get" action="/orders" style="display:flex;gap:10px">
+      <input type="tel" name="phone" maxlength="11" placeholder="输入下单手机号" value="<%= phone %>"
+             style="flex:1;background:var(--card);border:1.5px solid #E8E8EC;border-radius:14px;padding:13px 16px;font-size:15px;outline:none">
+      <button class="btn-cta" style="width:auto;padding:13px 26px;letter-spacing:.05em">查询</button>
+    </form>
+  </section>
+
+  <% if (phone && !/^1\d{10}$/.test(phone)) { %>
+    <p style="text-align:center;font-size:13px;color:var(--faint);margin-top:30px">手机号格式不对（11 位）</p>
+  <% } else if (phone && list.length === 0) { %>
+    <p style="text-align:center;font-size:13px;color:var(--faint);margin-top:30px">这个手机号还没有订单</p>
+  <% } %>
+
+  <% list.forEach(o => { %>
+  <div class="order-card rise">
+    <div class="order-top"><span class="order-no"><%= o.order_no %></span><span class="order-status"><%= STATUS_LABELS[o.status] %></span></div>
+    <div class="order-t"><%= o.tier %> · 选题<%= o.topic %></div>
+    <div class="order-d">
+      <% if (o.queue_date) { %>制作日 <%= o.queue_date %><% if (o.queue_pos) { %> · 第 <%= o.queue_pos %> 位<% } %><% } else { %>未排期<% } %>
+      · ¥<%= o.price / 100 %>
+    </div>
+  </div>
+  <% }); %>
+
+</div>
+</body>
+</html>

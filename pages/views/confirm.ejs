@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>确认预定 · flora 花艺定制</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="phone active">
+
+  <nav class="rise">
+    <div class="nav-back" onclick="history.back()">‹ 返回</div>
+    <div style="margin-left:auto;font-size:14px;font-weight:var(--w-semi)">确认预定</div>
+    <div style="width:34px"></div>
+  </nav>
+
+  <section style="margin-top:26px" class="confirm-sec rise">
+    <div class="confirm-label"><span class="cn">你的选题</span><span class="edit" onclick="history.back()">修改</span></div>
+    <div class="recap">
+      <div class="r-img">意境图</div>
+      <div><h3><%= topic %></h3><p>花艺师工作笔记选题 · 制作前可自由改</p></div>
+    </div>
+  </section>
+
+  <section class="confirm-sec reveal">
+    <div class="confirm-label"><span class="cn">你的档位</span><span class="edit" onclick="history.back()">修改</span></div>
+    <div class="recap">
+      <div style="flex:1">
+        <h3><%= tier.name %></h3>
+        <p><%= tier.desc %> · 手工包装</p>
+      </div>
+      <div style="font-size:20px;font-weight:var(--w-semi)">¥<%= tier.price / 100 %></div>
+    </div>
+  </section>
+
+  <section class="confirm-sec reveal rd1">
+    <div class="confirm-label"><span class="cn">你的排期</span></div>
+    <div class="gantt-card">
+      <div class="g-row"><div class="g-label">新订单</div><div class="g-track"><div class="g-bar mine" style="left:8%;width:60%">最早可排 <%= schedule %></div></div></div>
+      <div class="gantt-note">名额按下单顺序锁定；<b>点击付款后锁定 30 分钟</b>，超时未付自动释放。</div>
+    </div>
+  </section>
+
+  <section class="reveal rd1">
+    <div class="pay-total"><span>合计</span><b><%= tier.price / 100 %></b></div>
+    <form action="/order/create" method="post">
+      <input type="hidden" name="formId" value="<%= formId %>">
+      <input type="hidden" name="topic" value="<%= topic %>">
+      <input type="hidden" name="tier" value="<%= tier.name %>">
+      <button class="btn-cta" style="width:100%">确认付款</button>
+    </form>
+    <div class="queue-line" style="margin-top:12px">点击后锁定名额并唤起微信支付 · 30 分钟内未付款自动释放</div>
+  </section>
+
+</div>
+</body>
+</html>

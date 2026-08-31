@@ -1,0 +1,6 @@
+node_modules/
+*.db
+*.db-*
+server/.env
+server/data/
+reference/

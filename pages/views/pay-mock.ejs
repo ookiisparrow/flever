@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>收银台 · flora 花艺定制</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="mock-pay">
+  <div class="mock-brand">FLORA · 模拟收银台（mock 通道）</div>
+  <div style="text-align:center;font-size:13px;color:var(--gray)">订单号 <%= o.order_no %></div>
+  <div class="pay-amt"><%= o.price / 100 %></div>
+
+  <div class="pay-mock-note">
+    这是<b>本地演示用模拟收银台</b>，不产生真实扣款。<br>
+    微信支付商户号密钥到位后，此处将替换为 JSAPI 微信收银台（主）· H5 收银台（备），下单/落库/排队逻辑不变。
+  </div>
+
+  <form action="/pay/mock/<%= o.order_no %>/confirm" method="post">
+    <button class="btn-cta" style="width:100%">模拟支付成功</button>
+  </form>
+  <a class="link-btn" style="text-align:center;margin-top:12px" href="/">取消，返回首页</a>
+</div>
+</body>
+</html>

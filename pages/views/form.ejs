@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>开始定制 · flora 花艺定制</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="phone active">
+
+  <nav class="rise">
+    <div class="nav-back" onclick="location='/'">‹ 返回</div>
+    <div style="margin-left:auto;font-size:14px;font-weight:var(--w-semi)">开始定制</div>
+    <div style="width:34px"></div>
+  </nav>
+
+  <form class="steps" id="orderForm" action="/order/confirm" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="topic" value="<%= topic %>">
+    <input type="hidden" name="tier" id="tierInput" value="">
+
+    <div class="dots" id="dots"></div>
+
+    <div class="step on" data-step="1">
+      <div class="step-head">STEP 1 / 4</div>
+      <h2>想要什么花？</h2>
+      <div class="opt-grid">
+        <% flowers.forEach(f => { %><div class="opt" data-v="<%= f %>"><%= f %></div><% }); %>
+      </div>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="step-head">STEP 2 / 4</div>
+      <h2>偏好什么色系？</h2>
+      <div class="opt-grid">
+        <% colors.forEach(c => { %><div class="opt" data-v="<%= c %>"><%= c %></div><% }); %>
+      </div>
+    </div>
+
+    <div class="step" data-step="3">
+      <div class="step-head">STEP 3 / 4</div>
+      <h2>有参考图吗？</h2>
+      <label class="up-box" id="upBox">
+        点这里选图（可选，最多 2 张 · 单张 ≤10MB · jpg/png/webp）
+        <input type="file" name="refs" id="refInput" accept="image/jpeg,image/png,image/webp" multiple>
+      </label>
+      <div class="up-list" id="upList"></div>
+      <div class="field" style="margin-top:18px">
+        <label>还有什么想对花艺师说的？（选填）</label>
+        <textarea name="note" rows="3" maxlength="500" placeholder="比如：收花人喜欢香味淡一些……"></textarea>
+      </div>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="step-head">STEP 4 / 4</div>
+      <h2>选套餐，留手机号。</h2>
+      <div class="tiers" id="formTiers">
+        <% tiers.forEach((t, i) => { %>
+        <div class="tier <%= i === 0 ? 'sel' : '' %>" data-name="<%= t.name %>" data-price="<%= t.price / 100 %>">
+          <% if (t.tag) { %><span class="tier-tag"><%= t.tag %></span><% } %>
+          <div class="tier-name"><%= t.name %></div>
+          <div class="tier-desc"><%= t.desc %></div>
+          <div class="tier-bottom"><span class="tier-price"><%= t.price / 100 %></span></div>
+        </div>
+        <% }); %>
+      </div>
+      <div class="field" style="margin-top:18px">
+        <label>手机号（凭它随时查订单）</label>
+        <input type="tel" name="phone" id="phoneInput" maxlength="11" placeholder="13xxxxxxxxx">
+      </div>
+      <label class="privacy">
+        <input type="checkbox" id="privacy" checked>
+        <span>我已阅读并同意《隐私政策》：手机号仅用于订单与进度通知，不作他用。</span>
+      </label>
+    </div>
+
+    <div class="step-btns">
+      <button type="button" class="btn-ghost" id="btnPrev" style="visibility:hidden">‹ 上一步</button>
+      <button type="button" class="btn-cta btn-main" id="btnNext">下一步</button>
+    </div>
+  </form>
+
+</div>
+<script>
+/* ===== 分步导航 ===== */
+let cur = 1; const TOTAL = 4;
+const picked = { flower: '', color: '' };
+const dotsEl = document.getElementById('dots');
+function renderDots() {
+  dotsEl.innerHTML = Array.from({ length: TOTAL }, (_, i) => i + 1 === cur ? '<b>●</b>' : '○').join('');
+}
+function show(n) {
+  cur = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.toggle('on', +s.dataset.step === n));
+  document.getElementById('btnPrev').style.visibility = n === 1 ? 'hidden' : 'visible';
+  document.getElementById('btnNext').textContent = n === TOTAL ? '确认订单' : '下一步';
+  renderDots(); window.scrollTo(0, 0); saveDraft();
+}
+/* 单选卡片 */
+function bindPick(sel, key) {
+  document.querySelectorAll(sel + ' .opt').forEach(o => o.addEventListener('click', () => {
+    document.querySelectorAll(sel + ' .opt').forEach(x => x.classList.remove('sel'));
+    o.classList.add('sel'); picked[key] = o.dataset.v; saveDraft();
+  }));
+}
+bindPick('[data-step="1"]', 'flower');
+bindPick('[data-step="2"]', 'color');
+document.getElementById('formTiers').addEventListener('click', e => {
+  const t = e.target.closest('.tier'); if (!t) return;
+  document.querySelectorAll('#formTiers .tier').forEach(x => x.classList.remove('sel'));
+  t.classList.add('sel'); saveDraft();
+});
+/* 参考图选择反馈 */
+document.getElementById('refInput').addEventListener('change', e => {
+  const n = e.target.files.length;
+  document.getElementById('upBox').classList.toggle('has', n > 0);
+  document.getElementById('upList').textContent = n ? '已选 ' + n + ' 张：' + [...e.target.files].map(f => f.name).join('、') : '';
+});
+/* 草稿自动保存（本地 + 服务器各一份，7 天有效） */
+const draftKey = localStorage.getItem('flora-draft-key') || Math.random().toString(36).slice(2);
+localStorage.setItem('flora-draft-key', draftKey);
+function saveDraft() {
+  const d = {
+    draftKey, flower: picked.flower, color: picked.color,
+    note: document.querySelector('[name=note]').value,
+    phone: document.getElementById('phoneInput').value,
+    tier: document.querySelector('#formTiers .tier.sel')?.dataset.name || '',
+  };
+  localStorage.setItem('flora-draft', JSON.stringify(d));
+  clearTimeout(saveDraft._t);
+  saveDraft._t = setTimeout(() => fetch('/api/draft', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(d),
+  }).catch(() => {}), 600);
+}
+(function restore() {
+  const d = JSON.parse(localStorage.getItem('flora-draft') || '{}');
+  if (d.phone) document.getElementById('phoneInput').value = d.phone;
+  if (d.note) document.querySelector('[name=note]').value = d.note;
+  [['[data-step="1"]', d.flower], ['[data-step="2"]', d.color]].forEach(([sel, v]) => {
+    if (!v) return;
+    const o = document.querySelector(sel + ' .opt[data-v="' + v + '"]');
+    if (o) { o.click(); }
+  });
+})();
+/* 步进 + 校验 */
+document.getElementById('btnPrev').addEventListener('click', () => show(Math.max(1, cur - 1)));
+document.getElementById('btnNext').addEventListener('click', () => {
+  if (cur === 1 && !picked.flower) return alert('先选一种花');
+  if (cur === 2 && !picked.color) return alert('先选一个色系');
+  if (cur === 4) {
+    const tier = document.querySelector('#formTiers .tier.sel');
+    const phone = document.getElementById('phoneInput').value;
+    if (!/^1\d{10}$/.test(phone)) return alert('手机号格式不对');
+    if (!document.getElementById('privacy').checked) return alert('需先同意隐私政策');
+    document.getElementById('tierInput').value = tier.dataset.name;
+    return document.getElementById('orderForm').submit();
+  }
+  show(cur + 1);
+});
+show(1);
+</script>
+</body>
+</html>

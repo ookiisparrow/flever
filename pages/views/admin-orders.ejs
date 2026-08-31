@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>订单管理 · flora 管理后台</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="admin">
+  <div class="admin-head">
+    <h1>订单管理</h1>
+    <form method="post" action="/admin/logout"><button class="btn-sm" style="background:#86868B">退出</button></form>
+  </div>
+  <div class="sub">订单列表 · 改状态 · 调每日名额（超 30 分钟未支付自动释放占位）</div>
+
+  <% if (saved) { %><div class="ok">已保存。</div><% } %>
+
+  <div class="filters">
+    <a href="/admin/orders" class="<%= status ? '' : 'on' %>">全部</a>
+    <% Object.entries(STATUS_LABELS).forEach(([k, v]) => { %>
+    <a href="/admin/orders?status=<%= k %>" class="<%= status === k ? 'on' : '' %>"><%= v %></a>
+    <% }); %>
+  </div>
+
+  <div class="admin-card" style="padding:8px 4px">
+    <table>
+      <tr><th>订单号</th><th>手机号</th><th>套餐</th><th>选题 / 花种·色系</th><th>状态</th><th>排队</th><th>下单时间</th><th>改状态</th></tr>
+      <% list.forEach(o => { %>
+      <tr>
+        <td><%= o.order_no %></td>
+        <td><%= o.phone %></td>
+        <td><%= o.tier %><br><span style="color:var(--faint)">¥<%= o.price / 100 %></span></td>
+        <td><%= o.topic %><br><span style="color:var(--faint)"><%= o.flower || '—' %> · <%= o.color || '—' %></span></td>
+        <td><span class="st-tag"><%= STATUS_LABELS[o.status] %></span></td>
+        <td><%= o.queue_date || '—' %><% if (o.queue_pos) { %> · <%= o.queue_pos %><% } %></td>
+        <td style="white-space:nowrap;font-size:12px"><%= o.created_at %></td>
+        <td>
+          <form method="post" action="/admin/orders/<%= o.id %>/status" style="display:flex;gap:6px">
+            <select name="status">
+              <% CHANGEABLE.forEach(s => { %>
+              <option value="<%= s %>" <%= o.status === s ? 'selected' : '' %>><%= STATUS_LABELS[s] %></option>
+              <% }); %>
+            </select>
+            <button class="btn-sm">改</button>
+          </form>
+        </td>
+      </tr>
+      <% }); %>
+      <% if (list.length === 0) { %><tr><td colspan="8" style="color:var(--faint);padding:30px;text-align:center">暂无订单</td></tr><% } %>
+    </table>
+  </div>
+
+  <h1 style="font-size:17px;margin:30px 0 10px">每日名额（上限可调）</h1>
+  <div class="admin-card" style="padding:12px 4px">
+    <table class="quota-tbl">
+      <% days.forEach(d => { %>
+      <tr>
+        <td style="width:130px"><%= d.day %></td>
+        <td style="color:var(--faint);font-size:12px">已用 <%= d.used %> / 上限</td>
+        <td style="width:90px">
+          <form method="post" action="/admin/quota" style="display:flex;gap:6px">
+            <input type="hidden" name="day" value="<%= d.day %>">
+            <input type="number" name="quota" value="<%= d.quota %>" min="0" max="999" style="width:64px">
+            <button class="btn-sm">存</button>
+          </form>
+        </td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
+</div>
+</body>
+</html>
