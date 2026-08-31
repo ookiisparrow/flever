@@ -1,0 +1,198 @@
+{
+  "version": "0.8.4",
+  "name": "OpenPencil CLI Session",
+  "children": [
+    {
+      "type": "frame",
+      "id": "op-skeleton-1788155952759115743-root-1",
+      "name": "flora 首页",
+      "width": 1280.0,
+      "height": 1500.0,
+      "layout": "vertical",
+      "gap": 0.0,
+      "fill": [
+        {
+          "type": "solid",
+          "color": "#FBFAF8"
+        }
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "op-skeleton-1788155952759120436-section-2",
+          "name": "nav",
+          "width": "fill_container",
+          "height": 64.0,
+          "layout": "horizontal",
+          "padding": 24.0,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "n1",
+              "name": "logo",
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n2",
+              "name": "nav-links",
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "op-skeleton-1788155952759311650-section-3",
+          "name": "hero",
+          "width": "fill_container",
+          "height": 430.0,
+          "layout": "vertical",
+          "justifyContent": "center",
+          "alignItems": "center",
+          "fill": [
+            {
+              "type": "solid",
+              "color": "#F3EFF9"
+            }
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "n3",
+              "name": "hero-title",
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n4",
+              "name": "hero-sub",
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n5",
+              "name": "hero-cta",
+              "width": 180.0,
+              "height": 52.0,
+              "cornerRadius": 26.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#5B3E96"
+                }
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "op-skeleton-1788155952759315059-section-4",
+          "name": "works",
+          "width": "fill_container",
+          "height": 560.0,
+          "layout": "vertical",
+          "padding": 64.0,
+          "children": [
+            {
+              "type": "frame",
+              "id": "n6",
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n7",
+              "width": 300.0,
+              "height": 200.0,
+              "cornerRadius": 16.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#B9A3E3"
+                }
+              ],
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n8",
+              "width": 300.0,
+              "height": 200.0,
+              "cornerRadius": 16.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#D6D9D2"
+                }
+              ],
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n9",
+              "width": 300.0,
+              "height": 200.0,
+              "cornerRadius": 16.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#D8DADF"
+                }
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "op-skeleton-1788155952759318415-section-5",
+          "name": "tiers",
+          "width": "fill_container",
+          "height": 380.0,
+          "layout": "vertical",
+          "padding": 64.0,
+          "children": [
+            {
+              "type": "frame",
+              "id": "n10",
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n11",
+              "width": 420.0,
+              "height": 180.0,
+              "cornerRadius": 16.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#FFFFFF"
+                }
+              ],
+              "children": []
+            },
+            {
+              "type": "frame",
+              "id": "n12",
+              "width": 420.0,
+              "height": 180.0,
+              "cornerRadius": 16.0,
+              "fill": [
+                {
+                  "type": "solid",
+                  "color": "#5B3E96"
+                }
+              ],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "editorMeta": {
+    "activePageIndex": 0,
+    "preserveAuthoredGeometry": false
+  }
+}

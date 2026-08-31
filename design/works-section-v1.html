@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>往期作品 — Flora Custom</title>
+<style>
+  /* ============ Apple design language · single accent #5B3E96 ============ */
+  :root {
+    --bg-section: #f5f5f7;          /* Apple light gray canvas */
+    --text-primary: #1d1d1f;        /* near black */
+    --text-secondary: rgba(0, 0, 0, 0.8);
+    --text-tertiary: rgba(0, 0, 0, 0.48);
+    --accent: #5B3E96;              /* 主紫 — the ONLY chromatic accent */
+    --accent-soft: #E9E4F3;         /* accent tint, solid field only */
+    --card-dark: #1d1d1f;
+    --card-dark-surface: #272729;
+    --on-dark-secondary: rgba(255, 255, 255, 0.68);
+    --on-dark-tertiary: rgba(255, 255, 255, 0.44);
+    --accent-on-dark: #A98FE0;      /* accent lifted for dark bg contrast */
+    --card-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
+    --font: system-ui, -apple-system, 'SF Pro Display', 'SF Pro Text', 'PingFang SC',
+            'Segoe UI', Roboto, 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: #ffffff;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============ Section: cinematic light-gray scene ============ */
+  .works {
+    background: var(--bg-section);
+    padding: 140px 24px 160px;
+  }
+
+  .works__inner {
+    max-width: 980px;               /* the recurring 980px container */
+    margin: 0 auto;
+  }
+
+  .works__eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.224px;
+    line-height: 1.29;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .works__title {
+    font-size: 56px;                /* Display Hero scale */
+    font-weight: 600;
+    line-height: 1.07;              /* famously tight */
+    letter-spacing: -0.014em;       /* negative tracking */
+    text-align: center;
+    color: var(--text-primary);
+  }
+
+  .works__sub {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 20px auto 0;
+    max-width: 560px;
+  }
+
+  /* ============ Product grid: compression within, expansion between ============ */
+  .works__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 72px;
+  }
+
+  .work-card {
+    background: #ffffff;
+    border-radius: 12px;            /* large radius for feature panels */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--card-shadow); /* one soft diffused shadow — or nothing */
+  }
+
+  /* --- Image area: product on a solid color field, no gradients/textures --- */
+  .work-card__media {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .work-card__media--camellia { background: var(--accent-soft); }
+  .work-card__media--summer   { background: var(--card-dark); }
+  .work-card__media--moon     { background: #F2F1EC; }
+
+  .work-card__media svg { width: 58%; height: auto; display: block; }
+
+  /* --- Body: left-aligned copy, tight setting --- */
+  .work-card__body {
+    padding: 28px 28px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .work-card__month {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.12px;
+    line-height: 1.33;
+    color: var(--text-tertiary);
+  }
+
+  .work-card__title {
+    font-size: 28px;                /* Tile Heading scale */
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+  }
+
+  .work-card__desc {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.47;
+    letter-spacing: -0.374px;
+    color: var(--text-secondary);
+  }
+
+  /* --- Signature pill CTA (980px radius) --- */
+  .work-card__link {
+    margin-top: auto;
+    padding-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.224px;
+    line-height: 1.43;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    border-radius: 980px;           /* the pill */
+    padding: 8px 18px;
+    transition: background-color 0.2s ease;
+  }
+
+  .work-card__link:hover { background: rgba(91, 62, 150, 0.06); text-decoration: underline; }
+  .work-card__link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .work-card__link .chev { font-size: 12px; }
+
+  /* ============ Dark variant tile: cinematic dark scene ============ */
+  .work-card--dark { background: var(--card-dark); }
+  .work-card--dark .work-card__month { color: var(--on-dark-tertiary); }
+  .work-card--dark .work-card__title { color: #ffffff; }
+  .work-card--dark .work-card__desc  { color: var(--on-dark-secondary); }
+
+  .work-card--dark .work-card__link {
+    color: var(--accent-on-dark);
+    border-color: var(--accent-on-dark);
+  }
+  .work-card--dark .work-card__link:hover { background: rgba(169, 143, 224, 0.1); }
+  .work-card--dark .work-card__link:focus-visible { outline-color: var(--accent-on-dark); }
+
+  /* ============ Responsive: 3 → 1, full-bleed rhythm never breaks ============ */
+  @media (max-width: 900px) {
+    .works { padding: 96px 20px 110px; }
+    .works__grid { grid-template-columns: 1fr; gap: 32px; margin-top: 56px; }
+    .works__title { font-size: 40px; }
+  }
+
+  @media (max-width: 480px) {
+    .works__title { font-size: 32px; }
+    .work-card__media { aspect-ratio: 1 / 1; }
+  }
+</style>
+</head>
+<body>
+
+<section class="works">
+  <div class="works__inner">
+
+    <p class="works__eyebrow">Flora Custom · 花礼定制</p>
+    <h2 class="works__title">往期作品。</h2>
+    <p class="works__sub">每一束都是为当时的人与时刻而作。以下是 2024 年的部分定制记录。</p>
+
+    <div class="works__grid">
+
+      <!-- 山茶与雾 · 5月 -->
+      <article class="work-card">
+        <div class="work-card__media work-card__media--camellia" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- camellia line study -->
+            <g stroke="#5B3E96" stroke-width="2.5" stroke-linecap="round">
+              <circle cx="100" cy="96" r="14"/>
+              <path d="M100 82c-10-2-16-10-16-20 12 0 18 8 16 20Z"/>
+              <path d="M100 82c10-2 16-10 16-20-12 0-18 8-16 20Z"/>
+              <path d="M114 96c10-4 20-2 26 6-10 6-20 4-26-6Z"/>
+              <path d="M86 96c-10-4-20-2-26 6 10 6 20 4 26-6Z"/>
+              <path d="M100 110c-2 10-10 16-20 16 2-12 10-18 20-16Z"/>
+              <path d="M100 110c2 10 10 16 20 16-2-12-10-18-20-16Z"/>
+              <path d="M100 124v70"/>
+              <path d="M100 158c-14-2-24-12-26-26 16 2 24 12 26 26Z"/>
+              <path d="M100 172c14-2 24-12 26-26-16 2-24 12-26 26Z"/>
+            </g>
+            <!-- mist -->
+            <g stroke="#5B3E96" stroke-width="2" stroke-linecap="round" opacity="0.35">
+              <path d="M30 196h56"/><path d="M114 210h52"/><path d="M44 222h72"/>
+            </g>
+          </svg>
+        </div>
+        <div class="work-card__body">
+          <span class="work-card__month">5月 · 母亲节定制</span>
+          <h3 class="work-card__title">山茶与雾</h3>
+          <p class="work-card__desc">重瓣山茶配灰绿迷雾纱，收于陶白圆盆。</p>
+          <a class="work-card__link" href="#">查看这件作品 <span class="chev">›</span></a>
+        </div>
+      </article>
+
+      <!-- 夏日尽头 · 7月（dark tile） -->
+      <article class="work-card work-card--dark">
+        <div class="work-card__media work-card__media--summer" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- late-summer horizon study -->
+            <g stroke="#A98FE0" stroke-width="2.5" stroke-linecap="round">
+              <path d="M40 150h120"/>
+              <path d="M100 150V96"/>
+              <path d="M100 96c-16 0-28-12-28-28 16 0 28 12 28 28Z"/>
+              <path d="M100 96c16 0 28-12 28-28-16 0-28 12-28 28Z"/>
+              <path d="M100 150c-18-2-30-16-30-34 18 2 30 16 30 34Z"/>
+              <path d="M100 150c18-2 30-16 30-34-18 2-30 16-30 34Z"/>
+            </g>
+            <g stroke="#A98FE0" stroke-width="2" stroke-linecap="round" opacity="0.4">
+              <path d="M56 74l10 10"/><path d="M144 74l-10 10"/>
+              <path d="M100 44v-14"/><path d="M64 190h72"/>
+            </g>
+          </svg>
+        </div>
+        <div class="work-card__body">
+          <span class="work-card__month">7月 · 周年纪念</span>
+          <h3 class="work-card__title">夏日尽头</h3>
+          <p class="work-card__desc">向日葵与尤加利，日落色的渐次收束。</p>
+          <a class="work-card__link" href="#">查看这件作品 <span class="chev">›</span></a>
+        </div>
+      </article>
+
+      <!-- 月白 · 8月 -->
+      <article class="work-card">
+        <div class="work-card__media work-card__media--moon" aria-hidden="true">
+          <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- moon-white study -->
+            <circle cx="100" cy="92" r="34" stroke="#1d1d1f" stroke-width="2.5"/>
+            <circle cx="112" cy="80" r="5" fill="#5B3E96"/>
+            <g stroke="#1d1d1f" stroke-width="2.5" stroke-linecap="round">
+              <path d="M100 126v68"/>
+              <path d="M100 152c-16-2-26-14-28-30 16 2 26 14 28 30Z"/>
+              <path d="M100 168c16-2 26-14 28-30-16 2-26 14-28 30Z"/>
+            </g>
+            <g stroke="#1d1d1f" stroke-width="2" stroke-linecap="round" opacity="0.3">
+              <path d="M36 200h48"/><path d="M120 214h44"/>
+            </g>
+          </svg>
+        </div>
+        <div class="work-card__body">
+          <span class="work-card__month">8月 · 七夕定制</span>
+          <h3 class="work-card__title">月白</h3>
+          <p class="work-card__desc">白掌与银叶菊，月色般安静的冷白花束。</p>
+          <a class="work-card__link" href="#">查看这件作品 <span class="chev">›</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
