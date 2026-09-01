@@ -1,8 +1,8 @@
 {
-  "name": "flora-server",
+  "name": "flever-server",
   "version": "0.1.0",
   "private": true,
-  "description": "flora 花艺定制 · 后端（Express + SQLite 服务端渲染，技术栈见 docs/04 定稿）",
+  "description": "flever 花艺定制 · 后端（Express + SQLite 服务端渲染，技术栈见 docs/04 定稿）",
   "main": "src/index.js",
   "scripts": {
     "start": "node --env-file-if-exists=.env src/index.js",

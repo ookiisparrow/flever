@@ -1,4 +1,4 @@
-// flora 花艺定制 · 后端入口（Express 服务端渲染多页，docs/04 定稿）
+// flever 花艺定制 · 后端入口（Express 服务端渲染多页，docs/04 定稿）
 const express = require('express');
 const path = require('path');
 const db = require('./db');
@@ -34,4 +34,4 @@ app.use((err, req, res, next) => { // 统一兜底（multer 超限等）
 });
 app.use((req, res) => res.status(404).send('页面不存在'));
 
-app.listen(config.port, config.host, () => console.log(`flora server → http://${config.host}:${config.port}（支付通道：${config.payChannel}）`));
+app.listen(config.port, config.host, () => console.log(`flever server → http://${config.host}:${config.port}（支付通道：${config.payChannel}）`));

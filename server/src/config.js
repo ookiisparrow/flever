@@ -2,12 +2,12 @@
 module.exports = {
   port: process.env.PORT || 3000,
   host: process.env.HOST || '127.0.0.1', // 只绑回环，公网由 Caddy 反代（docs/04 部署定稿）
-  adminPassword: process.env.ADMIN_PASSWORD || 'flora-admin-demo', // 生产必改
-  sessionSecret: process.env.SESSION_SECRET || 'flora-dev-secret',
+  adminPassword: process.env.ADMIN_PASSWORD || 'flever-admin-demo', // 生产必改
+  sessionSecret: process.env.SESSION_SECRET || 'flever-dev-secret',
   wecomWebhook: process.env.WECOM_WEBHOOK || '', // 企微群机器人地址；空=占位不真发
   // 支付通道：mock=本地模拟；密钥到手后扩 'jsapi' | 'h5'（见 src/pay.js 接缝）
   payChannel: process.env.PAY_CHANNEL || 'mock',
-  dbFile: process.env.DB_FILE || require('path').join(__dirname, '..', 'flora.db'),
+  dbFile: process.env.DB_FILE || require('path').join(__dirname, '..', 'flever.db'),
   uploadDir: process.env.UPLOAD_DIR || require('path').join(__dirname, '..', 'data', 'uploads'),
   // 套餐档位：3 档名称价格待商家提供（docs/02），先按 v0.8 设计稿两档占位，直接改这里即可
   tiers: [

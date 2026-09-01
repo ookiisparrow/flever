@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# flora 后端部署脚本（服务器上跑；从本机 ssh server-public 'bash -s' < deploy.sh 亦可）
-# 真源：docs/04-技术方案.md 部署节 + 档案室/flora花艺定制/总览.md 服务器现状节
-# 形态：systemd 常驻 + Caddy 反代（见 caddy-site.conf），端口只绑 127.0.0.1，SQLite 数据在 /var/lib/flora
+# flever 后端部署脚本（服务器上跑；从本机 ssh server-public 'bash -s' < deploy.sh 亦可）
+# 真源：docs/04-技术方案.md 部署节 + 档案室/flever花艺定制/总览.md 服务器现状节
+# 形态：systemd 常驻 + Caddy 反代（见 caddy-site.conf），端口只绑 127.0.0.1，SQLite 数据在 /var/lib/flever
 # 复跑安全：幂等，重复执行只刷新代码+重启服务。
 set -euo pipefail
 
 REPO="git@github.com-flora:ookiisparrow/flora-custom.git" # 服务器 ssh config 别名，专用 deploy key
-BRANCH="${BRANCH:-dev-flora}"
-CODE=/srv/flora            # 代码目录（git）
-DATA=/var/lib/flora        # 数据目录（db+uploads，独立于代码，升级不动数据）
+BRANCH="${BRANCH:-dev-flever}"
+CODE=/srv/flever            # 代码目录（git）
+DATA=/var/lib/flever        # 数据目录（db+uploads，独立于代码，升级不动数据）
 PORT="${PORT:-3000}"
 
 [[ $EUID -eq 0 ]] || { echo "需要 root（sudo bash $0）"; exit 1; }
@@ -36,7 +36,7 @@ ADMIN_PASSWORD=$ADMIN_PW
 SESSION_SECRET=$SESSION_PW
 WECOM_WEBHOOK=
 PAY_CHANNEL=mock
-DB_FILE=$DATA/flora.db
+DB_FILE=$DATA/flever.db
 UPLOAD_DIR=$DATA/uploads
 EOF
   chown ubuntu:ubuntu "$CODE/server/.env" && chmod 600 "$CODE/server/.env"
@@ -44,10 +44,10 @@ EOF
 fi
 
 # 4) systemd
-cp "$CODE/server/deploy/flora.service" /etc/systemd/system/flora.service
-systemctl daemon-reload && systemctl enable --now flora.service
+cp "$CODE/server/deploy/flever.service" /etc/systemd/system/flever.service
+systemctl daemon-reload && systemctl enable --now flever.service
 sleep 1
-systemctl is-active flora.service
+systemctl is-active flever.service
 
-echo "部署完成：systemd flora.service（端口 127.0.0.1:$PORT）"
+echo "部署完成：systemd flever.service（端口 127.0.0.1:$PORT）"
 echo "Caddy 站点配置见 server/deploy/caddy-site.conf，别忘了 caddy validate + reload"

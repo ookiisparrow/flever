@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>开始定制 · flora 花艺定制</title>
+<title>开始定制 · flever 花艺定制</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -117,8 +117,8 @@ document.getElementById('refInput').addEventListener('change', e => {
   document.getElementById('upList').textContent = n ? '已选 ' + n + ' 张：' + [...e.target.files].map(f => f.name).join('、') : '';
 });
 /* 草稿自动保存（本地 + 服务器各一份，7 天有效） */
-const draftKey = localStorage.getItem('flora-draft-key') || Math.random().toString(36).slice(2);
-localStorage.setItem('flora-draft-key', draftKey);
+const draftKey = localStorage.getItem('flever-draft-key') || Math.random().toString(36).slice(2);
+localStorage.setItem('flever-draft-key', draftKey);
 function saveDraft() {
   const d = {
     draftKey, flower: picked.flower, color: picked.color,
@@ -126,7 +126,7 @@ function saveDraft() {
     phone: document.getElementById('phoneInput').value,
     tier: document.querySelector('#formTiers .tier.sel')?.dataset.name || '',
   };
-  localStorage.setItem('flora-draft', JSON.stringify(d));
+  localStorage.setItem('flever-draft', JSON.stringify(d));
   clearTimeout(saveDraft._t);
   saveDraft._t = setTimeout(() => fetch('/api/draft', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -134,7 +134,7 @@ function saveDraft() {
   }).catch(() => {}), 600);
 }
 (function restore() {
-  const d = JSON.parse(localStorage.getItem('flora-draft') || '{}');
+  const d = JSON.parse(localStorage.getItem('flever-draft') || '{}');
   if (d.phone) document.getElementById('phoneInput').value = d.phone;
   if (d.note) document.querySelector('[name=note]').value = d.note;
   [['[data-step="1"]', d.flower], ['[data-step="2"]', d.color]].forEach(([sel, v]) => {

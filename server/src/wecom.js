@@ -3,7 +3,7 @@
 const config = require('./config');
 
 async function notifyOrderPaid(order) {
-  const text = `🌸 flora 新订单 ${order.order_no}\n套餐：${order.tier}（¥${order.price / 100}）\n选题：${order.topic}\n排期：${order.queue_date} 第 ${order.queue_pos} 位`;
+  const text = `🌸 flever 新订单 ${order.order_no}\n套餐：${order.tier}（¥${order.price / 100}）\n选题：${order.topic}\n排期：${order.queue_date} 第 ${order.queue_pos} 位`;
   if (!config.wecomWebhook || config.wecomWebhook.includes('placeholder')) {
     console.log(`[wecom] 占位未配置，跳过真实发送：\n${text}`);
     return false;

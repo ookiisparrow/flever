@@ -1,19 +1,19 @@
 [Unit]
-Description=flora 花艺定制后端（Express+SQLite，docs/04 部署定稿）
+Description=flever 花艺定制后端（Express+SQLite，docs/04 部署定稿）
 After=network.target
 
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/srv/flora/server
-EnvironmentFile=/srv/flora/server/.env
+WorkingDirectory=/srv/flever/server
+EnvironmentFile=/srv/flever/server/.env
 ExecStart=/usr/bin/node src/index.js
 Restart=always
 RestartSec=3
 # 加固：进程无特权，可写范围限代码+数据目录
 NoNewPrivileges=true
 ProtectSystem=full
-ReadWritePaths=/srv/flora/server /var/lib/flora
+ReadWritePaths=/srv/flever/server /var/lib/flever
 
 [Install]
 WantedBy=default.target
