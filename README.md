@@ -1,6 +1,6 @@
 # flever —— 花艺定制下单网站
 
-> fever flower · 永恒之花 · 「崇拜永恒」
+> forever flower · 永恒之花 · 「崇拜永恒」
 >
 > flever/福来沃：人类崇拜永恒，所以诞生了渴望不再凋谢的手工花。
 
