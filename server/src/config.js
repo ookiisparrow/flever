@@ -1,6 +1,7 @@
 // 全局配置：全部从环境变量读，密钥只写路径/变量名不写值（见 .env.example）
 module.exports = {
   port: process.env.PORT || 3000,
+  host: process.env.HOST || '127.0.0.1', // 只绑回环，公网由 Caddy 反代（docs/04 部署定稿）
   adminPassword: process.env.ADMIN_PASSWORD || 'flora-admin-demo', // 生产必改
   sessionSecret: process.env.SESSION_SECRET || 'flora-dev-secret',
   wecomWebhook: process.env.WECOM_WEBHOOK || '', // 企微群机器人地址；空=占位不真发

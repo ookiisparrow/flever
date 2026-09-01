@@ -34,4 +34,4 @@ app.use((err, req, res, next) => { // 统一兜底（multer 超限等）
 });
 app.use((req, res) => res.status(404).send('页面不存在'));
 
-app.listen(config.port, () => console.log(`flora server → http://localhost:${config.port}（支付通道：${config.payChannel}）`));
+app.listen(config.port, config.host, () => console.log(`flora server → http://${config.host}:${config.port}（支付通道：${config.payChannel}）`));
