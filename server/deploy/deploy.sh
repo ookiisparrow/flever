@@ -5,7 +5,7 @@
 # 复跑安全：幂等，重复执行只刷新代码+重启服务。
 set -euo pipefail
 
-REPO="git@github.com:ookiisparrow/flora-custom.git"
+REPO="git@github.com-flora:ookiisparrow/flora-custom.git" # 服务器 ssh config 别名，专用 deploy key
 BRANCH="${BRANCH:-dev-flora}"
 CODE=/srv/flora            # 代码目录（git）
 DATA=/var/lib/flora        # 数据目录（db+uploads，独立于代码，升级不动数据）
