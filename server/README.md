@@ -1,4 +1,4 @@
-# flora 后端（第一批：骨架 + 本地跑通）
+# flever 后端（第一批：骨架 + 本地跑通）
 
 技术栈：Node 22 + Express + SQLite + EJS 服务端渲染（docs/04 定稿）。
 
