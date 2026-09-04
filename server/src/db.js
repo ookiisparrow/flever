@@ -60,6 +60,16 @@ CREATE TABLE IF NOT EXISTS queue_stats (
   quota      INTEGER NOT NULL DEFAULT 3,        -- 当日接单上限
   used       INTEGER NOT NULL DEFAULT 0         -- 已占名额
 );
+
+-- 花艺师选题（Obsidian「花艺师的选题」笔记每小时同步一次，见 scripts/sync-topics.js）
+CREATE TABLE IF NOT EXISTS topics (
+  pos       INTEGER PRIMARY KEY,                -- 展示顺序（笔记里的先后）
+  name      TEXT NOT NULL,                      -- 选题名，如「山茶与雾」
+  phil      TEXT NOT NULL DEFAULT '',           -- 主题字，如 静/烈/素
+  idea      TEXT NOT NULL DEFAULT '',           -- 主题短语
+  desc      TEXT NOT NULL DEFAULT '',           -- 描述
+  img       TEXT                                -- 绘画笔记图片 URL（可空）
+);
 `);
 
 // 订单状态中文标签（顾客页/后台共用）

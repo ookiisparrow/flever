@@ -43,14 +43,12 @@
       <div class="hint">还停在笔记本上的三个构思 · 点一张选定</div>
     </div>
     <div class="paper">
-      <% ['「山茶与雾」|静|克制的美，不需要喧哗|以山茶的沉稳为骨，雾灰色的桔梗作烟。适合安静、内敛的表达。',
-          '「夏日尽头」|烈|把季节留住给一个人|向日葵与狗尾草的野趣混搭，浓烈又松弛，像夏天最后一场傍晚。',
-          '「月白」|素|留白即言语|白绿为主，枝叶留出大量呼吸感。叶是主角，花只是月光落下的位置。'].forEach((n, i) => {
-           const [name, phil, idea, desc] = n.split('|'); %>
-      <div class="note <%= i === 0 ? 'sel' : '' %>" data-name="<%= name %>" data-phil="<%= phil %>" data-idea="<%= idea %>">
-        <h3><%= name %></h3>
-        <div class="desc"><%= desc %></div>
-        <div class="phil">主题 —— <b><%= phil %></b> ｜ <%= idea %></div>
+      <% topics.forEach((t, i) => { %>
+      <div class="note <%= i === 0 ? 'sel' : '' %>" data-name="<%= t.name %>" data-phil="<%= t.phil %>" data-idea="<%= t.idea %>">
+        <h3><%= t.name %></h3>
+        <% if (t.img) { %><img class="note-img" src="<%= t.img %>" alt="<%= t.name %> 绘画笔记"><% } %>
+        <div class="desc"><%= t.desc %></div>
+        <div class="phil">主题 —— <b><%= t.phil %></b> ｜ <%= t.idea %></div>
       </div>
       <% }); %>
     </div>

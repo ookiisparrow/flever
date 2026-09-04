@@ -110,6 +110,7 @@
 }
 .note:hover{opacity:.85}
 .note.sel{opacity:1}
+.note-img{width:100%;border-radius:8px;margin:8px 0 2px;background:var(--elevated)}
 .note h3{
   font-family:'Kaiti SC','STKaiti',serif;
   font-size:24px;font-weight:600;letter-spacing:.12em;
