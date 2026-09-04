@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
   res.render('home', { ...queue.overview(), tiers: config.tiers });
 });
 
-app.use(require('./routes/order'));
 app.use(require('./routes/admin'));
 
 app.use((err, req, res, next) => { // 统一兜底（multer 超限等）

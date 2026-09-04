@@ -11,7 +11,6 @@
 
   <nav class="nav rise">
     <div class="nav-brand">flever 花艺定制</div>
-    <button class="nav-me" onclick="location='/orders'">我</button>
   </nav>
 
   <div class="hero rise d1">
@@ -77,7 +76,7 @@
   </section>
 
   <div class="cta-wrap reveal">
-    <button class="btn-cta" onclick="goOrder()">预 定</button>
+    <button class="btn-cta">预 定</button>
     <div class="queue-line">今日还剩 <b><%= remaining %></b> 个名额 · 最早可排 <%= earliest %></div>
   </div>
 
@@ -107,9 +106,6 @@ document.getElementById('homeTiers').addEventListener('click', e => {
   document.querySelectorAll('#homeTiers .tier').forEach(x => x.classList.remove('sel'));
   t.classList.add('sel'); state.tier = t.dataset.name;
 });
-function goOrder() {
-  location = '/order/new?topic=' + encodeURIComponent(state.topic) + '&tier=' + encodeURIComponent(state.tier);
-}
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
 }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
