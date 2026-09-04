@@ -65,8 +65,8 @@ if (!topics.length) { console.error('笔记里没解析到任何 ## 小节'); pr
 const db = require('../src/db');
 const tx = db.transaction(() => {
   db.prepare('DELETE FROM topics').run();
-  db.prepare('INSERT INTO topics (pos, name, phil, idea, desc, img) VALUES (?,?,?,?,?,?)')
-    .run(...topics.map((t, i) => [i, t.name, t.phil, t.idea, t.desc, t.img]));
+  const ins = db.prepare('INSERT INTO topics (pos, name, phil, idea, desc, img) VALUES (?,?,?,?,?,?)');
+  topics.forEach((t, i) => ins.run(i, t.name, t.phil, t.idea, t.desc, t.img));
 });
 tx();
 console.log(`已同步 ${topics.length} 个选题：${topics.map(t => t.name).join(' / ')}`);
